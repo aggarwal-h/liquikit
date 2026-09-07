@@ -1,0 +1,25 @@
+{
+	"$schema": "https://turborepo.com/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"registry:build": {
+			"inputs": [
+				"../../packages/liquikit/src/**",
+				"../../packages/liquikit/scripts/**"
+			],
+			"outputs": ["public/r/**", "../../packages/liquikit/registry.json"]
+		},
+		"build": {
+			"dependsOn": ["^build", "registry:build"],
+			"outputs": ["dist/**", ".output/**"]
+		},
+		"dev": {
+			"dependsOn": ["registry:build"],
+			"cache": false,
+			"persistent": true
+		},
+		"typecheck": {
+			"dependsOn": ["^typecheck"]
+		}
+	}
+}

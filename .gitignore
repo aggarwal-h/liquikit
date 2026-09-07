@@ -1,0 +1,12 @@
+node_modules
+.turbo
+dist
+.output
+.vinxi
+.tanstack
+.nitro
+*.local
+.DS_Store
+.env
+apps/www/public/r
+packages/liquikit/registry.json
