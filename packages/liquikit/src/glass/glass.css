@@ -1,0 +1,117 @@
+.glass {
+	position: relative;
+	display: block;
+	overflow: visible;
+}
+
+:where(.glass-scope) {
+	transform: translate(0);
+}
+
+.glass-scope__backdrop,
+.glass-scope__lens {
+	position: absolute;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.glass-scope__backdrop {
+	inset: 0;
+}
+
+/* Safari paints a partial repaint of a filtered layer black, so the lens
+   keeps a layer of its own. WebKit measures a filter from the nearest
+   transformed element, so it carries an identity transform too. */
+.glass-scope__lens {
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	transform: translate(0);
+	will-change: transform;
+}
+
+.glass-scope__frost,
+.glass-scope__copy {
+	position: absolute;
+}
+
+.glass-scope__frost {
+	inset: 0;
+}
+
+.glass__target {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	transform-origin: left top;
+	will-change: filter, clip-path;
+}
+
+.glass__target-inner {
+	transform-origin: left top;
+}
+
+.glass__backdrop {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.glass__defs {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+}
+
+.glass__rim {
+	position: absolute;
+	top: 0;
+	left: 0;
+	box-sizing: border-box;
+	pointer-events: none;
+	will-change: transform, opacity;
+}
+
+.glass__tint {
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	pointer-events: none;
+	will-change: transform, opacity;
+}
+
+.glass__frost {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	will-change: transform, backdrop-filter;
+}
+
+.glass__face {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+.glass__light {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	will-change: transform;
+}
+
+.glass-theme {
+	display: contents;
+}
