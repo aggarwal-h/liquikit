@@ -1,0 +1,101 @@
+.glass-pane {
+	position: relative;
+	display: inline-block;
+	isolation: isolate;
+	--glass-pane-tint: #fff;
+	--glass-pane-ink: rgb(0 0 0 / 0.88);
+	color: var(--glass-pane-ink);
+}
+
+.glass-pane[data-theme="dark"] {
+	--glass-pane-tint: #2a2a2e;
+	--glass-pane-ink: rgb(255 255 255 / 0.92);
+}
+
+.glass-pane__glass {
+	position: absolute;
+	pointer-events: none;
+}
+
+.glass-pane__content {
+	position: relative;
+}
+
+.glass-pane:not([data-drawn])::before,
+.glass-pane:not([data-drawn])::after {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	content: "";
+	border-radius: inherit;
+	pointer-events: none;
+}
+
+.glass-pane:not([data-drawn])::before {
+	-webkit-backdrop-filter: var(--glass-pane-frost);
+	backdrop-filter: var(--glass-pane-frost);
+	box-shadow: var(--glass-pane-shadow);
+}
+
+.glass-pane:not([data-drawn])::after {
+	background: var(--glass-pane-fill);
+	opacity: var(--glass-pane-fill-opacity);
+}
+
+.glass-pane[data-shaped]:not([data-drawn])::before,
+.glass-pane[data-shaped]:not([data-drawn])::after {
+	content: none;
+}
+
+.glass-pane__lenses {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	border-radius: inherit;
+}
+
+/* The copy only approximates the pane, so its edges fade into it. */
+.glass-pane__lenses .glass-scope__lens {
+	z-index: auto;
+	-webkit-mask:
+		linear-gradient(
+			to right,
+			transparent,
+			#000 8px,
+			#000 calc(100% - 8px),
+			transparent
+		),
+		linear-gradient(
+			to bottom,
+			transparent,
+			#000 8px,
+			#000 calc(100% - 8px),
+			transparent
+		);
+	-webkit-mask-composite: source-in;
+	mask:
+		linear-gradient(
+			to right,
+			transparent,
+			#000 8px,
+			#000 calc(100% - 8px),
+			transparent
+		),
+		linear-gradient(
+			to bottom,
+			transparent,
+			#000 8px,
+			#000 calc(100% - 8px),
+			transparent
+		);
+	mask-composite: intersect;
+}
+
+.glass-pane__lenses .glass-scope__lens::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	background: var(--lens-tint);
+	opacity: var(--lens-tint-opacity, 0);
+}
