@@ -1,0 +1,159 @@
+.glass-segmented {
+	display: inline-block;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.glass-segmented__box {
+	position: relative;
+	display: inline-block;
+	touch-action: pan-y;
+	-webkit-user-select: none;
+	user-select: none;
+	--toggle-track: color(display-p3 0.93 0.928 0.932);
+	--toggle-label: rgb(0 0 0 / 0.55);
+	--toggle-selected: rgb(0 0 0 / 0.92);
+	--toggle-divider: rgb(0 0 0 / 0.12);
+	--toggle-focus: var(--glass-accent, #7774ff);
+	--glass-body: #fff;
+}
+
+.glass-segmented__box[data-theme="dark"] {
+	--toggle-track: color(display-p3 0.19 0.19 0.21);
+	--toggle-label: rgb(255 255 255 / 0.6);
+	--toggle-divider: rgb(255 255 255 / 0.16);
+	--toggle-selected: rgb(255 255 255 / 0.95);
+	--glass-body: #1b1b1f;
+}
+
+.glass-segmented__row {
+	position: relative;
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	box-sizing: border-box;
+	align-items: center;
+	width: fit-content;
+	background: var(--toggle-track);
+	border-radius: calc(var(--toggle-height) / 2);
+}
+
+.glass-segmented__option {
+	padding: 0 18px;
+	font: 600 13px / 1 var(--font-sans, inherit);
+	color: var(--toggle-label);
+	text-align: center;
+	white-space: nowrap;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.glass-segmented__row:not([data-highlighted])
+	.glass-segmented__option[data-selected] {
+	opacity: calc(1 - var(--segment-rest, 0));
+}
+
+.glass-segmented__box:not([data-measured])
+	.glass-segmented__option[data-selected] {
+	position: relative;
+	z-index: 0;
+	color: var(--toggle-selected);
+	opacity: 1;
+}
+
+.glass-segmented__box:not([data-measured])
+	.glass-segmented__option[data-selected]::before {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	left: 0;
+	z-index: -1;
+	height: var(--segment-pill);
+	content: "";
+	background: var(--glass-body);
+	border-radius: 999px;
+	box-shadow: var(--segment-shadow);
+	transform: translateY(-50%);
+}
+
+.glass-segmented__row[data-highlighted] {
+	background: transparent;
+}
+
+.glass-segmented__row[data-highlighted] .glass-segmented__option {
+	color: var(--toggle-selected);
+}
+
+.glass-segmented__divider {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 1px;
+	background: var(--toggle-divider);
+	transform: translateX(-0.5px);
+}
+
+.glass-segmented__glass {
+	position: absolute;
+	top: 0;
+	left: 0;
+	pointer-events: none;
+}
+
+.glass-segmented__hit {
+	position: absolute;
+	top: 0;
+	z-index: 1;
+	height: 100%;
+	padding: 0;
+	background: none;
+	border: 0;
+	cursor: pointer;
+}
+
+.glass-segmented__input,
+.glass-segmented__hit-label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.glass-segmented__input:focus-visible ~ .glass-segmented__hit-label {
+	position: absolute;
+	inset: 0;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip-path: none;
+	color: transparent;
+	border-radius: calc(var(--toggle-height) / 2);
+	outline: 2px solid var(--toggle-focus);
+	outline-offset: 2px;
+}
+
+.glass-segmented__hit:focus-visible {
+	border-radius: calc(var(--toggle-height) / 2);
+	outline: 2px solid var(--toggle-focus);
+	outline-offset: 2px;
+}
+
+.glass-segmented__hit:disabled {
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+.glass-segmented[data-disabled],
+.glass-segmented__box[data-disabled] {
+	cursor: not-allowed;
+	opacity: 0.48;
+}
+
+.glass-segmented[data-disabled] .glass-segmented__hit {
+	cursor: not-allowed;
+}

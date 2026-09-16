@@ -1,0 +1,84 @@
+.glass-switch {
+	--glass-switch-off: color(display-p3 0.882 0.875 0.875);
+	--glass-switch-on: var(--glass-accent-fill, color(display-p3 0.596 0.588 1));
+	--glass-switch-focus: var(--glass-accent, #7774ff);
+	--switch-progress: 0;
+	--glass-body: #fff;
+
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	width: fit-content;
+	cursor: pointer;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.glass-switch__box {
+	position: relative;
+	display: flow-root;
+	flex: none;
+	--glass-switch-off: color(display-p3 0.882 0.875 0.875);
+	--glass-switch-on: var(--glass-accent-fill, color(display-p3 0.596 0.588 1));
+	--switch-progress: 0;
+	--glass-body: #fff;
+}
+
+.glass-switch__box[data-theme="dark"] {
+	--glass-switch-off: color(display-p3 0.26 0.26 0.28);
+	--glass-body: #1b1b1f;
+}
+
+.glass-switch__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+.glass-switch__glass {
+	pointer-events: none;
+}
+
+.glass-switch__track {
+	position: relative;
+	background: color-mix(
+		in srgb,
+		var(--glass-switch-off),
+		var(--glass-switch-on) calc(var(--switch-progress) * 100%)
+	);
+}
+
+.glass-switch__thumb-area {
+	position: absolute;
+	display: block;
+	touch-action: none;
+	pointer-events: auto;
+	cursor: inherit;
+}
+
+.glass-switch__label {
+	font: 600 15px / 1.25 var(--font-sans, inherit);
+	color: currentColor;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.glass-switch__input:focus-visible + .glass-switch__box .glass-switch__track {
+	outline: 2px solid var(--glass-switch-focus);
+	outline-offset: 3px;
+}
+
+.glass-switch[data-disabled] {
+	cursor: not-allowed;
+	opacity: 0.48;
+}
+
+.glass-switch[data-theme="dark"] {
+	--glass-switch-off: color(display-p3 0.26 0.26 0.28);
+	--glass-body: #1b1b1f;
+}
