@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
+
+@custom-variant dark (
+	&:where([data-glass-theme="dark"], [data-glass-theme="dark"] *)
+);
+
+@theme {
+	--font-sans:
+		"Geist Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	--font-mono: "Geist Mono Variable", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@layer base {
+	html {
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+}
+
+@property --neon {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #2160ff;
+}
+
+@property --neon-hot {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #a8ccff;
+}
+
+@property --neon-deep {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: #03103f;
+}
+
+.neon {
+	transition:
+		--neon 0.8s ease,
+		--neon-hot 0.8s ease,
+		--neon-deep 0.8s ease;
+}
+
+html:has(.neon) .glass-pane[data-theme="dark"] {
+	--glass-pane-tint: #0b1540;
+}
+
+.lock-toasts {
+	transform: translate(0);
+}
+
+.lock-toasts .glass-ui-toast__viewport {
+	width: calc(100% - 28px);
+}
+
+.lock-toasts .glass-ui-toast,
+.lock-toasts .glass-ui-toast .glass-pane__content,
+.lock-toasts .glass-ui-toast .glass-pane__content > div {
+	width: 100%;
+}
+
+.code pre.shiki code {
+	display: grid;
+	min-width: max-content;
+}
+
+.steps h3 {
+	position: relative;
+	counter-increment: step;
+}
+
+.steps h3::before {
+	position: absolute;
+	top: 1px;
+	left: -42px;
+	display: grid;
+	place-items: center;
+	width: 26px;
+	height: 26px;
+	font: 500 12px / 1 var(--font-mono);
+	color: rgb(255 255 255 / 0.75);
+	content: counter(step);
+	background: #111526;
+	border: 1px solid rgb(255 255 255 / 0.12);
+	border-radius: 999px;
+}
