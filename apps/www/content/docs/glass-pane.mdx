@@ -1,0 +1,74 @@
+---
+title: Glass Pane
+description: The primitive every component is made of. Put anything on a pane of glass.
+source: glass/glass-pane.tsx
+---
+
+<ComponentPreview name="glass-pane-demo" />
+
+## Installation
+
+`GlassPane` comes with every component, as part of the glass engine. To install it on its own:
+
+```bash
+npx shadcn@latest add @liquikit/glass
+```
+
+## Usage
+
+```tsx
+import { GlassPane } from "@/components/liquikit/glass"
+```
+
+```tsx
+<GlassPane radius={28}>
+  <div className="p-5">Now boarding</div>
+</GlassPane>
+```
+
+The pane sizes itself to its content and redraws its lens when that size changes.
+
+## Examples
+
+### Variants and tint
+
+`regular` glass is frosted with a tinted body, for text that must stay readable. `clear` glass has almost no body, so the refraction shows most. `tint` and `tintOpacity` colour the body.
+
+<ComponentPreview name="glass-pane-clear" />
+
+### Always bending
+
+Glass bends the page only while you use it, and rests as frosted glass with baked light. Set `refraction="always"` to keep a pane bending, such as a single card over a photo. Keep it to a few pieces: each one carries a filter while it is on screen.
+
+```tsx
+<GlassPane radius={28} refraction="always">
+  <div className="p-5">Now boarding</div>
+</GlassPane>
+```
+
+## Glass Scope
+
+The glass bends a copy of the background rather than the page itself. Wrap the area in a `GlassScope`, pass the background as `backdrop`, and put the content inside as children.
+
+```tsx
+import { GlassScope } from "@/components/liquikit/glass"
+```
+
+```tsx
+<GlassScope
+  backdrop={<img src="/photo.jpg" alt="" className="size-full object-cover" />}
+  className="p-8"
+>
+  <GlassPane radius={28}>
+    <div className="p-5">Now boarding</div>
+  </GlassPane>
+</GlassScope>
+```
+
+## API Reference
+
+<Props name="glass-pane" />
+
+<Props name="scope" />
+
+<Props name="theme" />

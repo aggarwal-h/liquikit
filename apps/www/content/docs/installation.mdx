@@ -1,0 +1,75 @@
+---
+title: Installation
+description: Add the LiquiKit registry to a shadcn project, then install components with the CLI.
+---
+
+LiquiKit installs with the [shadcn CLI](https://ui.shadcn.com/docs/cli). If your project does not use shadcn yet, run `npx shadcn@latest init` first. You need React 19.
+
+## Set up
+
+<Steps>
+
+### Add the registry
+
+Add `@liquikit` to the `registries` in your `components.json`.
+
+```json
+{
+  "registries": {
+    "@liquikit": "https://liquikit.dev/r/{name}.json"
+  }
+}
+```
+
+### Add components
+
+Install components by name. The CLI copies the source into `components/liquikit`, along with the glass engine they share, and installs `@base-ui/react` and `motion`.
+
+```bash
+npx shadcn@latest add @liquikit/switch @liquikit/menu
+```
+
+Or add every component at once.
+
+```bash
+npx shadcn@latest add @liquikit/all
+```
+
+### Use them
+
+```tsx
+import { Switch } from "@/components/liquikit/switch"
+
+export function Settings() {
+  return <Switch defaultChecked aria-label="Wi-Fi" />
+}
+```
+
+</Steps>
+
+## Give the glass something to bend
+
+Glass shows off what is behind it. On a flat colour it reads as frosted glass with a bright rim; over a photo, a gradient or text you can see it bend. Put glass on a busy background where you can.
+
+Wrap the area in a `GlassScope` and pass the background as `backdrop`. While you use a component, the glass bends a copy of that backdrop. See [Limitations](/docs/limitations) for what the copy can and cannot show.
+
+```tsx
+import { GlassScope } from "@/components/liquikit/glass"
+```
+
+```tsx
+<GlassScope
+  backdrop={<img src="/photo.jpg" alt="" className="size-full object-cover" />}
+  className="p-8"
+>
+  <Switch aria-label="Wi-Fi" />
+</GlassScope>
+```
+
+## Server components
+
+Every component is a client component. In a React Server Component you cannot reach into a compound object such as `Menu.Root`, so each part is also exported on its own: `MenuRoot`, `MenuTrigger`, `MenuPopup` and so on.
+
+```tsx
+import { MenuItem, MenuPopup, MenuRoot, MenuTrigger } from "@/components/liquikit/menu"
+```

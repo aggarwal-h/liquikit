@@ -1,0 +1,53 @@
+---
+title: How it works
+description: How LiquiKit bends the page, what the model leaves out, and what it costs.
+---
+
+## Refraction by displacement
+
+Each glass surface has a shape: a rounded rectangle with a curved rim, a thickness and a refractive index. For every point on the surface, LiquiKit traces a ray looking straight down into the glass. The ray bends at the curved top surface by Snell's law, travels through the thickness, and lands on the page underneath. How far it lands from where it entered is the displacement for that point.
+
+LiquiKit stores those displacements in an image, a displacement map, and hands it to an SVG `feDisplacementMap` filter. The filter moves the pixels behind the glass by the amount the map says. The content underneath is still HTML, so text under the glass stays selectable and links stay clickable.
+
+Light is drawn on top as a second image: a rim that brightens at grazing angles (Schlick's Fresnel term), glints from a key light, and shade on the side facing away from it.
+
+## What the model leaves out
+
+The refraction is physically based, not physically exact. The model is simplified on purpose, so it can run on every frame:
+
+- The viewer looks straight down. There is no perspective, and the glass does not change as you move.
+- The ray bends once, at the top surface. The glass sits flat on the page, so there is no second bend on the way out.
+- The page is treated as a flat plane directly under the glass.
+- The map is an 8-bit image, so displacements are rounded to 256 steps.
+- The lighting is a shading model painted over the result, not light traced through a scene.
+- `dispersion`, the rainbow fringe at the rim, is exaggerated well past real glass so it can be seen at all. Its order is true: blue bends further than red.
+
+`magnification` is a control over the shape of the top surface. A domed top enlarges what is underneath and a dished one shrinks it, as a real lens would.
+
+## At rest and in use
+
+At rest, glass draws no filter. The browser's own `backdrop-filter` frosts what is behind it, and the light is baked into a transparent image laid over the glass: the same rim and glints the filter would paint. That costs about as much as any frosted panel, so a screen full of glass scrolls smoothly in every browser.
+
+The glass bends the page while you use it: while it is pressed, dragged or focused, while a popup grows, and for a moment after. Glass that sits on other glass, such as a button on a card, does not bend: its bend would only be seen through the frost of the glass below. Set `refraction="always"` on a component to keep it bending, for a single piece of glass that should always look like it.
+
+## What the glass bends
+
+Chromium can run the filter on whatever is behind an element. Safari and Firefox cannot, so there the glass bends a copy of the background you pass to `GlassScope` as `backdrop`, cut to the size of the lens. Inside a scope, buttons, fields and other panes use that copy in Chromium too, so they look the same everywhere.
+
+```tsx
+<GlassScope backdrop={<img src="/photo.jpg" alt="" className="size-full object-cover" />}>
+  <Button>Play</Button>
+</GlassScope>
+```
+
+Switches, sliders and segmented controls bend the page behind them in Chromium. In Safari and Firefox they bend the backdrop, with their own track and labels drawn on top.
+
+[Limitations](/docs/limitations) covers what the copy can and cannot show.
+
+## Cost
+
+A resting component carries no filter. In use, only the glass being used carries one, and it covers little more than the lens, so it stays at full frame rate.
+
+Glass set to `refraction="always"` keeps its filter while it is on screen. Safari and Firefox draw filters on the processor and draw them again when they scroll back into view, so there it starts to bend once it is on screen and the page has stopped scrolling. The backdrop is drawn again under every bending pane, so the lighter it is, the less that costs: photos and gradients are cheap, SVG artwork with its own blur filters is not.
+
+The first press on a component needs its lens maps. LiquiKit builds the likely ones while the page is idle, so that press does not stall.

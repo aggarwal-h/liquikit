@@ -1,0 +1,50 @@
+---
+title: Limitations
+description: What the glass cannot do, and where browsers differ.
+---
+
+LiquiKit bends the page with SVG filters, and browsers do not all give those filters the same reach. This page lists what that means for your interface, so you can plan around it.
+
+## Resting glass does not bend
+
+Glass bends the page only while it is in use: while it is pressed, dragged or focused, while a popup opens, and for a moment after. At rest it is frosted glass with its light painted on as an image. That keeps long pages full of glass smooth to scroll.
+
+To keep a component bending all the time, set `refraction="always"` on it. Each one keeps a filter running while it is on screen, so use it for a few pieces rather than a whole page.
+
+```tsx
+<GlassPane radius={28} refraction="always">
+  <div className="p-5">Now boarding</div>
+</GlassPane>
+```
+
+## The glass bends a copy of the backdrop
+
+Only Chromium can run an SVG filter on whatever happens to be behind an element. Safari and Firefox cannot, so LiquiKit bends a copy of the background you pass to `GlassScope` as `backdrop`. Buttons, fields and other panes inside a scope use that copy in Chromium as well, so they look the same in every browser.
+
+This has a few consequences:
+
+- Only the backdrop is copied. Text, images or other components that you place inside the scope as children are not part of it, and they stay unbent when glass passes over them.
+- Outside a `GlassScope`, Safari and Firefox have nothing to bend, so glass there keeps its frosted look even while in use.
+- The backdrop is rendered twice, once in place and once for the lens. Photos, gradients and plain SVG cost little to draw again. SVG artwork with blur filters of its own is slow to redraw in Safari, a video plays twice, and a canvas draws twice. Keep those out of the backdrop.
+- Safari does not apply SVG filters to a playing video, so a video in the backdrop shows through the glass unbent there.
+- The copy starts from the scope's own background colour and image. Give the scope or the backdrop an opaque background. If both are transparent, faint lines and gradients in the backdrop look doubled inside a lens while it is in use.
+
+## Switches, sliders and segmented controls
+
+In Chromium, these bend the page behind them, their own track and labels included. In Safari and Firefox they bend the scope's backdrop, but their track and labels are drawn on top of the lens and stay straight. Outside a scope, those two browsers bend only a copy of the track and labels.
+
+## Glass on glass
+
+Glass that sits on other glass, such as a button on a card or a slider in a player, does not bend what is behind it in any browser. Its bend would only be seen through the frost of the glass below, and in Chromium a filter over other glass flickers. It keeps its frost and its lit rim.
+
+## Popups
+
+Menus, popovers, selects and dialogs are rendered at the end of the page, outside any scope. Chromium bends the page behind them while they open. In Safari and Firefox they stay frosted glass the whole time.
+
+## The first interaction
+
+A component needs a set of lens maps for its shape the first time it bends. LiquiKit builds them for buttons, fields and other panes while the page is idle, so the first press is smooth. Switches, sliders and segmented controls build theirs on first use, which can cost a frame or two over a heavy backdrop.
+
+## The optics
+
+The refraction is physically based, not physically exact. [How it works](/docs/how-it-works) lists what the model leaves out, such as perspective and the second bend on the way out of the glass.

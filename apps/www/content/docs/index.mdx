@@ -1,0 +1,22 @@
+---
+title: Introduction
+description: Liquid glass components for React, built on Base UI and installed with the shadcn CLI.
+---
+
+LiquiKit is a set of React components made of liquid glass. Each one is a [Base UI](https://base-ui.com) primitive with a glass surface on top, so the behaviour, keyboard support and accessibility come from Base UI, and the look comes from LiquiKit.
+
+## Not a package
+
+Like shadcn/ui, LiquiKit is not a dependency you install from npm. The shadcn CLI copies the source into your project, where it is yours to read and change.
+
+```bash
+npx shadcn@latest add @liquikit/switch
+```
+
+## How the glass works
+
+The glass bends what is behind it. For every surface, LiquiKit traces a ray of light through a curved piece of glass using Snell's law and records how far each point moves. While you use a component, an SVG filter moves the pixels behind it by that much. See [How it works](/docs/how-it-works) for the details.
+
+## Browser support
+
+The glass works in Chrome, Edge, Safari and Firefox. Safari and Firefox cannot filter what is behind an element, so there the glass bends a copy of the background you give it. [Limitations](/docs/limitations) lists where the browsers differ.

@@ -1,0 +1,66 @@
+---
+title: Theming
+description: Light and dark glass, the accent colour and the tint of the glass body.
+---
+
+<ComponentPreview name="theme-demo" />
+
+## Light and dark
+
+Wrap your app, or part of it, in `GlassThemeProvider`. Every component inside it takes the theme, including menus, dialogs and toasts that render in a portal.
+
+```tsx
+import { GlassThemeProvider } from "@/components/liquikit/glass"
+
+<GlassThemeProvider theme="dark">
+  <App />
+</GlassThemeProvider>
+```
+
+Any component also takes a `theme` prop of its own, which wins over the provider. The provider marks its contents with `data-glass-theme`, so your own styles can follow it too.
+
+## Accent
+
+Switches, checkboxes, prominent buttons and focus rings use the accent. Set it with two CSS variables: the accent itself, and a lighter fill for surfaces that sit under glass.
+
+```css
+:root {
+  --glass-accent: #2160ff;
+  --glass-accent-fill: #5b8cff;
+}
+```
+
+## The glass body
+
+Panes are tinted white in light mode and dark grey in dark mode. Change the tint with `--glass-pane-tint`. This site uses a deep navy in dark mode:
+
+```css
+.glass-pane[data-theme="dark"] {
+  --glass-pane-tint: #0b1540;
+}
+```
+
+For one pane, pass `tint` and `tintOpacity` instead. See [Glass Pane](/docs/glass-pane).
+
+## Text and lines
+
+The components draw text, separators and wells from a few tokens, set per theme:
+
+| Token | Used for |
+| --- | --- |
+| `--glass-ui-ink` | Text and icons, as an RGB triple |
+| `--glass-ui-paper` | The opposite of the ink |
+| `--glass-ui-danger` | Destructive actions and invalid fields |
+| `--glass-ui-well` | Inset surfaces, such as input wells |
+| `--glass-ui-edge` | Hairline borders |
+| `--glass-ui-scrim` | The dimmed page behind dialogs |
+
+## The lens
+
+Every component takes a `lens` prop that overrides its lens profile: how thick the glass is, how wide the rim, its refractive index and how much it magnifies.
+
+```tsx
+<Switch lens={{ thickness: 18, magnification: 0.9 }} />
+```
+
+The profiles each component starts from are exported from `@/components/liquikit/glass` as `switchLens`, `sliderLens`, `paneLens` and so on.
