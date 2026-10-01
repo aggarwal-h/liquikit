@@ -1,0 +1,32 @@
+---
+title: Sheet
+description: A sheet of glass that floats up from the bottom and can be pulled back down.
+base: drawer
+source: sheet.tsx
+---
+
+<ComponentPreview name="sheet-demo" />
+
+## Installation
+
+<Install name="sheet" />
+
+## Usage
+
+```tsx
+import { Sheet } from "@/components/liquikit/sheet"
+```
+
+```tsx
+<Sheet.Root>
+  <Sheet.Trigger>Share…</Sheet.Trigger>
+  <Sheet.Popup>
+    <Sheet.Title>Share</Sheet.Title>
+    <Sheet.Close>Cancel</Sheet.Close>
+  </Sheet.Popup>
+</Sheet.Root>
+```
+
+## API Reference
+
+<Props name="sheet" />

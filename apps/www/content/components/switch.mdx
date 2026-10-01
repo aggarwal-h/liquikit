@@ -1,0 +1,42 @@
+---
+title: Switch
+description: A switch whose knob lifts into a lens as it slides. Drag it, flick it or tap it.
+base: switch
+source: switch.tsx
+---
+
+<ComponentPreview name="switch-demo" />
+
+## Installation
+
+<Install name="switch" />
+
+## Usage
+
+```tsx
+import { Switch } from "@/components/liquikit/switch"
+```
+
+```tsx
+<Switch defaultChecked aria-label="Wi-Fi" />
+```
+
+Wrap it in a `label`, or give it an `aria-label`, so it has an accessible name.
+
+## Examples
+
+### Controlled
+
+Pass `checked` and `onCheckedChange` to keep the state yourself.
+
+<ComponentPreview name="switch-controlled" />
+
+### Sizes
+
+The track takes any `width` and `height`. The knob and the lens scale with it.
+
+<ComponentPreview name="switch-sizes" />
+
+## API Reference
+
+<Props name="switch" />

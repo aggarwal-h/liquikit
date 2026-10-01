@@ -1,0 +1,41 @@
+---
+title: Accordion
+description: Sections that open on a spring inside one slab of glass. The file also has a single collapsible.
+base: accordion
+source: accordion.tsx
+---
+
+<ComponentPreview name="accordion-demo" align="start" />
+
+## Installation
+
+<Install name="accordion" />
+
+## Usage
+
+```tsx
+import { Accordion } from "@/components/liquikit/accordion"
+```
+
+```tsx
+<Accordion.Root defaultValue={["wifi"]}>
+  <Accordion.Item value="wifi">
+    <Accordion.Trigger>Wi-Fi</Accordion.Trigger>
+    <Accordion.Panel>Connected to Home.</Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+Pass `multiple` to `Accordion.Root` to let more than one section stay open.
+
+## Examples
+
+### Collapsible
+
+One section on its own. The trigger is a glass button.
+
+<ComponentPreview name="collapsible-demo" align="start" />
+
+## API Reference
+
+<Props name="accordion" />

@@ -1,0 +1,33 @@
+---
+title: Tooltip
+description: A tooltip that swells out of nothing above its trigger.
+base: tooltip
+source: tooltip.tsx
+---
+
+<ComponentPreview name="tooltip-demo" />
+
+## Installation
+
+<Install name="tooltip" />
+
+## Usage
+
+```tsx
+import { Tooltip } from "@/components/liquikit/tooltip"
+```
+
+```tsx
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger icon aria-label="Share">…</Tooltip.Trigger>
+    <Tooltip.Popup>Share</Tooltip.Popup>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+`Tooltip.Provider` lets tooltips next to each other open instantly once one has opened. `Tooltip.Trigger` is a glass [button](/docs/components/button).
+
+## API Reference
+
+<Props name="tooltip" />

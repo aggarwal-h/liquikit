@@ -1,0 +1,32 @@
+---
+title: Popover
+description: A glass popover that grows out of its trigger.
+base: popover
+source: popover.tsx
+---
+
+<ComponentPreview name="popover-demo" />
+
+## Installation
+
+<Install name="popover" />
+
+## Usage
+
+```tsx
+import { Popover } from "@/components/liquikit/popover"
+```
+
+```tsx
+<Popover.Root>
+  <Popover.Trigger>Details</Popover.Trigger>
+  <Popover.Popup>
+    <Popover.Title>Refraction</Popover.Title>
+    <Popover.Description>How light bends through glass.</Popover.Description>
+  </Popover.Popup>
+</Popover.Root>
+```
+
+## API Reference
+
+<Props name="popover" />

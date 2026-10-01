@@ -1,0 +1,38 @@
+---
+title: Tabs
+description: Tabs, and a floating tab bar with a lens you can drag between items.
+base: tabs
+source: tabs.tsx
+---
+
+<ComponentPreview name="tabs-demo" />
+
+## Installation
+
+<Install name="tabs" />
+
+## Usage
+
+```tsx
+import { Tabs } from "@/components/liquikit/tabs"
+```
+
+```tsx
+<Tabs.Root defaultValue="overview">
+  <Tabs.List tabs={[{ value: "overview", label: "Overview" }, { value: "activity", label: "Activity" }]} />
+  <Tabs.Panel value="overview">…</Tabs.Panel>
+  <Tabs.Panel value="activity">…</Tabs.Panel>
+</Tabs.Root>
+```
+
+## Examples
+
+### Tab bar
+
+`Tabs.Bar` is the floating bar from the bottom of a phone screen, with an icon over each label.
+
+<ComponentPreview name="tabs-bar" />
+
+## API Reference
+
+<Props name="tabs" />

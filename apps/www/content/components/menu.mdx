@@ -1,0 +1,54 @@
+---
+title: Menu
+description: A menu that pours out of its button like liquid.
+base: menu
+source: menu.tsx
+---
+
+<ComponentPreview name="menu-demo" />
+
+## Installation
+
+<Install name="menu" />
+
+## Usage
+
+```tsx
+import { Menu } from "@/components/liquikit/menu"
+```
+
+```tsx
+<Menu.Root>
+  <Menu.Trigger>Options</Menu.Trigger>
+  <Menu.Popup>
+    <Menu.Item>Copy</Menu.Item>
+    <Menu.Item>Rename</Menu.Item>
+    <Menu.Separator />
+    <Menu.Item>Delete</Menu.Item>
+  </Menu.Popup>
+</Menu.Root>
+```
+
+`Menu.Trigger` is a glass [button](/docs/components/button). `Menu.Item` takes an `icon`.
+
+## Examples
+
+### Alignment
+
+A menu opens over its trigger, with its leading edge lined up with the trigger's, so the first item lands under the pointer. Pass `align` to `Menu.Popup` to line it up by the centre or the trailing edge instead, and `side` or `sideOffset` to open it beside the trigger.
+
+<ComponentPreview name="menu-align" align="start" />
+
+### Checkbox and radio items
+
+<ComponentPreview name="menu-options" />
+
+### Submenu
+
+A submenu opens from its own item, in a panel of its own.
+
+<ComponentPreview name="menu-submenu" />
+
+## API Reference
+
+<Props name="menu" />

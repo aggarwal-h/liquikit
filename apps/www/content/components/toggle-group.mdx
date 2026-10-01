@@ -1,0 +1,38 @@
+---
+title: Toggle Group
+description: Toggles that merge into one capsule of glass.
+base: toggle-group
+source: toggle-group.tsx
+---
+
+<ComponentPreview name="toggle-group-demo" />
+
+## Installation
+
+<Install name="toggle-group" />
+
+## Usage
+
+```tsx
+import { ToggleGroup } from "@/components/liquikit/toggle-group"
+```
+
+```tsx
+<ToggleGroup
+  options={["Left", "Center", "Right"]}
+  defaultValue={["Left"]}
+  aria-label="Alignment"
+/>
+```
+
+## Examples
+
+### Multiple
+
+Pass `multiple` to let more than one toggle stay pressed.
+
+<ComponentPreview name="toggle-group-multiple" />
+
+## API Reference
+
+<Props name="toggle-group" />

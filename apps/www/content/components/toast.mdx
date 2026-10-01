@@ -1,0 +1,36 @@
+---
+title: Toast
+description: Notifications that unfold out of a capsule at the top edge. Swipe one up to dismiss it.
+base: toast
+source: toast.tsx
+---
+
+<ComponentPreview name="toast-demo" />
+
+## Installation
+
+<Install name="toast" />
+
+## Usage
+
+```tsx
+import { Toast, useToast } from "@/components/liquikit/toast"
+```
+
+```tsx
+// Once, near the root of your app
+<Toast.Provider>
+  <App />
+  <Toast.Viewport />
+</Toast.Provider>
+
+// Anywhere inside it
+const toast = useToast()
+toast.add({ title: "Copied", description: "The link is on your clipboard." })
+```
+
+`Toast.Viewport` takes a `container`, so toasts can live inside a card instead of at the top of the window.
+
+## API Reference
+
+<Props name="toast" />

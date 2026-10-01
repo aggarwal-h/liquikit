@@ -1,0 +1,40 @@
+---
+title: Slider
+description: A glass knob that turns to liquid as you drag it.
+base: slider
+source: slider.tsx
+---
+
+<ComponentPreview name="slider-demo" />
+
+## Installation
+
+<Install name="slider" />
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/liquikit/slider"
+```
+
+```tsx
+<Slider defaultValue={40} width={280} aria-label="Volume" />
+```
+
+The slider draws at a fixed `width` in pixels, because the lens is traced for that size. Measure the container if you need it to fill one.
+
+## Examples
+
+### Controlled
+
+<ComponentPreview name="slider-controlled" />
+
+### Sizes
+
+`thumbHeight` and `trackHeight` resize the knob and the track.
+
+<ComponentPreview name="slider-sizes" />
+
+## API Reference
+
+<Props name="slider" />

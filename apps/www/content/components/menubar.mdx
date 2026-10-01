@@ -1,0 +1,34 @@
+---
+title: Menubar
+description: A capsule of menu titles whose menus share one panel of glass.
+base: menubar
+source: menubar.tsx
+---
+
+<ComponentPreview name="menubar-demo" />
+
+## Installation
+
+<Install name="menubar" />
+
+## Usage
+
+```tsx
+import { Menubar } from "@/components/liquikit/menubar"
+import { Menu } from "@/components/liquikit/menu"
+```
+
+```tsx
+<Menubar.Root>
+  <Menubar.Menu>
+    <Menubar.Trigger>File</Menubar.Trigger>
+    <Menubar.Popup>
+      <Menu.Item>New Window</Menu.Item>
+    </Menubar.Popup>
+  </Menubar.Menu>
+</Menubar.Root>
+```
+
+## API Reference
+
+<Props name="menubar" />

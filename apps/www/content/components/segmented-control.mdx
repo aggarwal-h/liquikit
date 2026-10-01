@@ -1,0 +1,40 @@
+---
+title: Segmented Control
+description: A pill of liquid glass you can tap or drag between options.
+base: radio-group
+source: segmented-control.tsx
+---
+
+<ComponentPreview name="segmented-control-demo" />
+
+## Installation
+
+<Install name="segmented-control" />
+
+## Usage
+
+```tsx
+import { SegmentedControl } from "@/components/liquikit/segmented-control"
+```
+
+```tsx
+<SegmentedControl
+  options={["Day", "Week", "Month"]}
+  defaultValue="Week"
+  aria-label="Range"
+/>
+```
+
+It is a radio group underneath, so the arrow keys move between options.
+
+## Examples
+
+### Icons
+
+A label can be any React node. Give icon labels an `aria-label`.
+
+<ComponentPreview name="segmented-control-icons" />
+
+## API Reference
+
+<Props name="segmented-control" />

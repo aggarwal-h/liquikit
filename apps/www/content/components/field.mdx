@@ -1,0 +1,42 @@
+---
+title: Field
+description: Glass text inputs, with labels, descriptions and errors, fieldsets and forms.
+base: field
+source: field.tsx
+---
+
+<ComponentPreview name="field-demo" />
+
+## Installation
+
+<Install name="field" />
+
+## Usage
+
+```tsx
+import { Field, Input } from "@/components/liquikit/field"
+```
+
+```tsx
+<Field.Root>
+  <Field.Label>Email</Field.Label>
+  <Input type="email" placeholder="you@example.com" />
+  <Field.Description>For your receipts.</Field.Description>
+</Field.Root>
+```
+
+## Examples
+
+### Leading icon
+
+<ComponentPreview name="field-leading" />
+
+### Form
+
+`Form`, `Fieldset` and `Field.Error` validate on submit. An invalid field turns red and says why.
+
+<ComponentPreview name="field-form" />
+
+## API Reference
+
+<Props name="field" />

@@ -1,0 +1,34 @@
+---
+title: OTP Field
+description: A one-time code in slots of glass. Pasting a code fills every slot.
+base: otp-field
+source: otp-field.tsx
+---
+
+<ComponentPreview name="otp-field-demo" />
+
+## Installation
+
+<Install name="otp-field" />
+
+## Usage
+
+```tsx
+import { OtpField } from "@/components/liquikit/otp-field"
+```
+
+```tsx
+<OtpField length={6} aria-label="Verification code" />
+```
+
+## Examples
+
+### Grouped
+
+`groupSize` puts a gap after every few slots.
+
+<ComponentPreview name="otp-field-grouped" />
+
+## API Reference
+
+<Props name="otp-field" />

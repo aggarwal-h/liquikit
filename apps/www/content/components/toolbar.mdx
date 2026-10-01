@@ -1,0 +1,31 @@
+---
+title: Toolbar
+description: A capsule of glass holding buttons and separators.
+base: toolbar
+source: toolbar.tsx
+---
+
+<ComponentPreview name="toolbar-demo" />
+
+## Installation
+
+<Install name="toolbar" />
+
+## Usage
+
+```tsx
+import { Toolbar } from "@/components/liquikit/toolbar"
+import { Bold, Link } from "lucide-react"
+```
+
+```tsx
+<Toolbar.Root aria-label="Formatting">
+  <Toolbar.Button icon aria-label="Bold"><Bold className="size-4" /></Toolbar.Button>
+  <Toolbar.Separator />
+  <Toolbar.Button icon aria-label="Link"><Link className="size-4" /></Toolbar.Button>
+</Toolbar.Root>
+```
+
+## API Reference
+
+<Props name="toolbar" />

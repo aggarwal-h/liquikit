@@ -1,0 +1,39 @@
+---
+title: Autocomplete
+description: A glass field that suggests as you type. Free text is allowed; suggestions fill it in.
+base: autocomplete
+source: autocomplete.tsx
+---
+
+<ComponentPreview name="autocomplete-demo" />
+
+## Installation
+
+<Install name="autocomplete" />
+
+## Usage
+
+```tsx
+import { Autocomplete } from "@/components/liquikit/autocomplete"
+```
+
+```tsx
+<Autocomplete.Root items={cities}>
+  <Autocomplete.Input placeholder="Search cities" aria-label="City" />
+  <Autocomplete.Popup empty="No city found.">
+    <Autocomplete.List>
+      {(city: string) => (
+        <Autocomplete.Item key={city} value={city}>
+          {city}
+        </Autocomplete.Item>
+      )}
+    </Autocomplete.List>
+  </Autocomplete.Popup>
+</Autocomplete.Root>
+```
+
+Use [Combobox](/docs/components/combobox) when the value must be one of the items.
+
+## API Reference
+
+<Props name="autocomplete" />

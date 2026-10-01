@@ -1,0 +1,35 @@
+---
+title: Dialog
+description: A panel that grows out of its button and flies home into it when it closes.
+base: dialog
+source: dialog.tsx
+---
+
+<ComponentPreview name="dialog-demo" />
+
+## Installation
+
+<Install name="dialog" />
+
+## Usage
+
+```tsx
+import { Dialog } from "@/components/liquikit/dialog"
+```
+
+```tsx
+<Dialog.Root>
+  <Dialog.Trigger>Edit profile…</Dialog.Trigger>
+  <Dialog.Popup>
+    <Dialog.Title>Edit profile</Dialog.Title>
+    <Dialog.Description>Changes are saved to your account.</Dialog.Description>
+    <Dialog.Close variant="prominent">Save</Dialog.Close>
+  </Dialog.Popup>
+</Dialog.Root>
+```
+
+`Dialog.Trigger` and `Dialog.Close` are glass [buttons](/docs/components/button).
+
+## API Reference
+
+<Props name="dialog" />

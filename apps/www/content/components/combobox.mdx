@@ -1,0 +1,45 @@
+---
+title: Combobox
+description: A glass field with a list that buds off it and reshapes as you type.
+base: combobox
+source: combobox.tsx
+---
+
+<ComponentPreview name="combobox-demo" />
+
+## Installation
+
+<Install name="combobox" />
+
+## Usage
+
+```tsx
+import { Combobox } from "@/components/liquikit/combobox"
+```
+
+```tsx
+<Combobox.Root items={fruits}>
+  <Combobox.Input placeholder="Choose a fruit" aria-label="Fruit" />
+  <Combobox.Popup empty="No fruit found.">
+    <Combobox.List>
+      {(fruit: string) => (
+        <Combobox.Item key={fruit} value={fruit}>
+          {fruit}
+        </Combobox.Item>
+      )}
+    </Combobox.List>
+  </Combobox.Popup>
+</Combobox.Root>
+```
+
+## Examples
+
+### Multiple
+
+Pass `multiple` to `Combobox.Root` and use `Combobox.Chips` in place of the input. Chosen items sit in the field as chips. Remove one with its cross, or with Backspace from the start of the field.
+
+<ComponentPreview name="combobox-multiple" align="start" />
+
+## API Reference
+
+<Props name="combobox" />

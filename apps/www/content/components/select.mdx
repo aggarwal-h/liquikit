@@ -1,0 +1,43 @@
+---
+title: Select
+description: A select whose list grows out of its button.
+base: select
+source: select.tsx
+---
+
+<ComponentPreview name="select-demo" />
+
+## Installation
+
+<Install name="select" />
+
+## Usage
+
+```tsx
+import { Select } from "@/components/liquikit/select"
+```
+
+```tsx
+<Select.Root items={sizes} defaultValue="medium">
+  <Select.Trigger aria-label="Text size" />
+  <Select.Popup>
+    {sizes.map((size) => (
+      <Select.Item key={size.value} value={size.value}>
+        {size.label}
+      </Select.Item>
+    ))}
+  </Select.Popup>
+</Select.Root>
+```
+
+Pass `items` to `Select.Root` so the trigger can show the label of the chosen value.
+
+## Examples
+
+### Groups
+
+<ComponentPreview name="select-groups" />
+
+## API Reference
+
+<Props name="select" />

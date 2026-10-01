@@ -1,0 +1,37 @@
+---
+title: Meter and Progress
+description: Frosted bars for a measurement, like storage, and for progress, like a download.
+base: meter
+source: meter.tsx
+---
+
+<ComponentPreview name="meter-demo" />
+
+## Installation
+
+<Install name="meter" />
+
+## Usage
+
+```tsx
+import { Meter, Progress } from "@/components/liquikit/meter"
+```
+
+```tsx
+<Meter label="Storage" value={72} />
+<Progress label="Downloading" value={40} />
+```
+
+Use a meter for a value within a known range, and progress for a task that is under way.
+
+## Examples
+
+### Progress
+
+Pass `null` as the value when you cannot tell how far along it is.
+
+<ComponentPreview name="progress-demo" />
+
+## API Reference
+
+<Props name="meter" />

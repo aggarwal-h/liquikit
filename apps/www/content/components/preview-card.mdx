@@ -1,0 +1,29 @@
+---
+title: Preview Card
+description: A preview that buds off a link while you hover it.
+base: preview-card
+source: preview-card.tsx
+---
+
+<ComponentPreview name="preview-card-demo" />
+
+## Installation
+
+<Install name="preview-card" />
+
+## Usage
+
+```tsx
+import { PreviewCard } from "@/components/liquikit/preview-card"
+```
+
+```tsx
+<PreviewCard.Root>
+  <PreviewCard.Trigger href="/glass">Liquid glass</PreviewCard.Trigger>
+  <PreviewCard.Popup>A material that bends what is behind it.</PreviewCard.Popup>
+</PreviewCard.Root>
+```
+
+## API Reference
+
+<Props name="preview-card" />

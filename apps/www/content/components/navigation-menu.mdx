@@ -1,0 +1,35 @@
+---
+title: Navigation Menu
+description: A navigation bar whose one panel reshapes as you move between titles.
+base: navigation-menu
+source: navigation-menu.tsx
+---
+
+<ComponentPreview name="navigation-menu-demo" align="start" />
+
+## Installation
+
+<Install name="navigation-menu" />
+
+## Usage
+
+```tsx
+import { NavigationMenu } from "@/components/liquikit/navigation-menu"
+```
+
+```tsx
+<NavigationMenu.Root>
+  <NavigationMenu.List aria-label="Main">
+    <NavigationMenu.Item>
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+      <NavigationMenu.Content>
+        <NavigationMenu.Link href="/laptops" title="Laptops" />
+      </NavigationMenu.Content>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+```
+
+## API Reference
+
+<Props name="navigation-menu" />

@@ -1,0 +1,35 @@
+---
+title: Context Menu
+description: A menu that grows from wherever the pointer was, on a right-click or a long press.
+base: context-menu
+source: context-menu.tsx
+---
+
+<ComponentPreview name="context-menu-demo" />
+
+## Installation
+
+<Install name="context-menu" />
+
+## Usage
+
+```tsx
+import { ContextMenu } from "@/components/liquikit/context-menu"
+import { Menu } from "@/components/liquikit/menu"
+```
+
+```tsx
+<ContextMenu.Root>
+  <ContextMenu.Trigger>Right-click here</ContextMenu.Trigger>
+  <ContextMenu.Popup>
+    <Menu.Item>Get Info</Menu.Item>
+    <Menu.Item>Rename</Menu.Item>
+  </ContextMenu.Popup>
+</ContextMenu.Root>
+```
+
+The items are the ones from [Menu](/docs/components/menu).
+
+## API Reference
+
+<Props name="context-menu" />

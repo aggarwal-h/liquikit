@@ -1,0 +1,38 @@
+---
+title: Alert
+description: An alert dialog that grows out of a droplet in its own middle, for choices that need an answer.
+base: alert-dialog
+source: alert.tsx
+---
+
+<ComponentPreview name="alert-demo" />
+
+## Installation
+
+<Install name="alert" />
+
+## Usage
+
+```tsx
+import { Alert } from "@/components/liquikit/alert"
+```
+
+```tsx
+<Alert.Root>
+  <Alert.Trigger>Delete photo…</Alert.Trigger>
+  <Alert.Popup>
+    <Alert.Title>Delete this photo?</Alert.Title>
+    <Alert.Description>It will be removed from all your devices.</Alert.Description>
+    <Alert.Actions>
+      <Alert.Close>Cancel</Alert.Close>
+      <Alert.Close variant="prominent">Delete</Alert.Close>
+    </Alert.Actions>
+  </Alert.Popup>
+</Alert.Root>
+```
+
+`Alert.Trigger` and `Alert.Close` are glass [buttons](/docs/components/button) and take the same props. Clicking outside does not close an alert; the user has to choose.
+
+## API Reference
+
+<Props name="alert" />
