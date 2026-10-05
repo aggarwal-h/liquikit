@@ -1,0 +1,13 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "liquikit",
+	"compatibility_date": "2026-10-05",
+	"assets": {
+		"directory": "./apps/www/dist/client",
+		// Pages link without a trailing slash, so serve them there and redirect the
+		// slashed form, matching the canonical URLs.
+		"html_handling": "drop-trailing-slash",
+		"not_found_handling": "404-page"
+	},
+	"routes": [{ "pattern": "liquikit.dev", "custom_domain": true }]
+}

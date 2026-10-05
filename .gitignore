@@ -8,5 +8,7 @@ dist
 *.local
 .DS_Store
 .env
+.dev.vars
+.wrangler
 apps/www/public/r
 packages/liquikit/registry.json
