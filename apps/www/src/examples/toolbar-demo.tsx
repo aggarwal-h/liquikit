@@ -1,3 +1,5 @@
+"use client";
+
 import { Toolbar } from "@liquikit/react";
 import { Bold, Copy, Italic, Link, Underline } from "lucide-react";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu } from "@liquikit/react";
 import { useState } from "react";
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu, Menubar } from "@liquikit/react";
 
 export default function MenubarDemo() {

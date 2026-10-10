@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, useToast } from "@liquikit/react";
 import { useState } from "react";
 

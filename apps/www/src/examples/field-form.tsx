@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Field, Fieldset, Form, Input } from "@liquikit/react";
 import { useState } from "react";
 

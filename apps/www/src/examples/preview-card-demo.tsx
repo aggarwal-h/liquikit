@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, PreviewCard } from "@liquikit/react";
 
 export default function PreviewCardDemo() {

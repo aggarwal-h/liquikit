@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu } from "@liquikit/react";
 import { Copy, Pencil, Share, Trash2 } from "lucide-react";
 

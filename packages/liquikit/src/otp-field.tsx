@@ -27,6 +27,10 @@ export function OtpField({
 	className,
 	...rootProps
 }: OtpFieldProps) {
+	// Base UI drops an aria-label from the first slot, which leaves it unnamed
+	// when the field has no <label>, so the first slot takes the field's own.
+	const firstLabel = rootProps["aria-label"];
+
 	return (
 		<BaseOTPField.Root
 			{...rootProps}
@@ -52,7 +56,11 @@ export function OtpField({
 									liquid={liquid}
 									refraction={refraction}
 								>
-									<input {...props} className="glass-ui-otp__input" />
+									<input
+										{...props}
+										aria-label={props["aria-label"] ?? firstLabel}
+										className="glass-ui-otp__input"
+									/>
 								</GlassPane>
 							</span>
 						)}

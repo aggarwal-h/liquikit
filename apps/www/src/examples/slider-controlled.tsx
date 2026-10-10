@@ -1,3 +1,5 @@
+"use client";
+
 import { Slider } from "@liquikit/react";
 import { Sun, SunDim } from "lucide-react";
 import { useState } from "react";

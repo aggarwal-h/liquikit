@@ -17,7 +17,7 @@ import { GlassThemeProvider } from "@/components/liquikit/glass"
 </GlassThemeProvider>
 ```
 
-Any component also takes a `theme` prop of its own, which wins over the provider. The provider marks its contents with `data-glass-theme`, so your own styles can follow it too.
+Every part that draws glass also takes a `theme` prop of its own, which wins over the provider. The meter, progress bar, scroll area and separator follow the provider alone. The provider marks its contents with `data-glass-theme`, so your own styles can follow it too.
 
 ## Accent
 
@@ -57,10 +57,18 @@ The components draw text, separators and wells from a few tokens, set per theme:
 
 ## The lens
 
-Every component takes a `lens` prop that overrides its lens profile: how thick the glass is, how wide the rim, its refractive index and how much it magnifies.
+Everything that bends the page takes a `lens` prop that overrides its lens profile: how thick the glass is, how wide the rim, its refractive index and how much it magnifies. The exceptions are popups, sheets and toasts, which share one profile.
 
 ```tsx
 <Switch lens={{ thickness: 18, magnification: 0.9 }} />
 ```
 
 The profiles each component starts from are exported from `@/components/liquikit/glass` as `switchLens`, `sliderLens`, `paneLens` and so on.
+
+## Class names
+
+A `className` adds to a component's own styles. Where it sets something the component already sets, such as its `display`, the component's style wins, so add Tailwind's important modifier:
+
+```tsx
+<Button className="max-md:hidden!">Share</Button>
+```

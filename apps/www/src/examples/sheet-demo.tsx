@@ -1,3 +1,5 @@
+"use client";
+
 import { Sheet } from "@liquikit/react";
 
 export default function SheetDemo() {

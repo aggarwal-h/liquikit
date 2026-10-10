@@ -1,3 +1,5 @@
+"use client";
+
 import { Tabs } from "@liquikit/react";
 import { Heart, House, Search, User } from "lucide-react";
 import { useState } from "react";

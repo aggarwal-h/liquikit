@@ -1,3 +1,5 @@
+"use client";
+
 import { NavigationMenu } from "@liquikit/react";
 
 export default function NavigationMenuDemo() {

@@ -67,6 +67,12 @@ html:has(.neon) .glass-pane[data-theme="dark"] {
 	min-width: max-content;
 }
 
+/* The grid drops the newlines between lines, so a blank line needs something
+   in it to keep its height. */
+.code pre.shiki .line:empty::before {
+	content: " ";
+}
+
 .steps h3 {
 	position: relative;
 	counter-increment: step;

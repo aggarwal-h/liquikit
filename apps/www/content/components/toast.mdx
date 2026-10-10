@@ -14,22 +14,22 @@ source: toast.tsx
 ## Usage
 
 ```tsx
-import { Toast, useToast } from "@/components/liquikit/toast"
+import { ToastProvider, ToastViewport, useToast } from "@/components/liquikit/toast"
 ```
 
 ```tsx
 // Once, near the root of your app
-<Toast.Provider>
+<ToastProvider>
   <App />
-  <Toast.Viewport />
-</Toast.Provider>
+  <ToastViewport />
+</ToastProvider>
 
-// Anywhere inside it
+// Anywhere inside it, in a client component
 const toast = useToast()
 toast.add({ title: "Copied", description: "The link is on your clipboard." })
 ```
 
-`Toast.Viewport` takes a `container`, so toasts can live inside a card instead of at the top of the window.
+The provider and the viewport are imported by name, so they can go in a layout that renders on the server. The viewport takes a `container`, so toasts can live inside a card instead of at the top of the window.
 
 ## API Reference
 

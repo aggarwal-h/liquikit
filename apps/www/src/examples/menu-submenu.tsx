@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu } from "@liquikit/react";
 
 export default function MenuSubmenu() {

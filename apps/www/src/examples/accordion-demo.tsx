@@ -1,3 +1,5 @@
+"use client";
+
 import { Accordion } from "@liquikit/react";
 
 export default function AccordionDemo() {

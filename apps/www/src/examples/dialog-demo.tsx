@@ -1,3 +1,5 @@
+"use client";
+
 import { Dialog, Field, Input } from "@liquikit/react";
 
 export default function DialogDemo() {

@@ -68,8 +68,10 @@ import { GlassScope } from "@/components/liquikit/glass"
 
 ## Server components
 
-Every component is a client component. In a React Server Component you cannot reach into a compound object such as `Menu.Root`, so each part is also exported on its own: `MenuRoot`, `MenuTrigger`, `MenuPopup` and so on.
+Every component is a client component, so a React Server Component can render it. What a Server Component cannot do is reach into a compound object such as `Menu.Root`, so each part is also exported on its own: `MenuRoot`, `MenuTrigger`, `MenuPopup` and so on.
 
 ```tsx
 import { MenuItem, MenuPopup, MenuRoot, MenuTrigger } from "@/components/liquikit/menu"
 ```
+
+Examples in these docs that use the compound form start with `"use client"`. Keep that line when you paste one into a Next.js app, or switch to the named parts.

@@ -29,6 +29,10 @@ This has a few consequences:
 - Safari does not apply SVG filters to a playing video, so a video in the backdrop shows through the glass unbent there.
 - The copy starts from the scope's own background colour and image. Give the scope or the backdrop an opaque background. If both are transparent, faint lines and gradients in the backdrop look doubled inside a lens while it is in use.
 
+## Fixed elements inside a scope
+
+A `GlassScope` carries a CSS transform, so an element inside it with `position: fixed` is fixed to the scope rather than the window, and scrolls away with the page. Keep fixed headers and toolbars outside the scope.
+
 ## Switches, sliders and segmented controls
 
 In Chromium, these bend the page behind them, their own track and labels included. In Safari and Firefox they bend the scope's backdrop, but their track and labels are drawn on top of the lens and stay straight. Outside a scope, those two browsers bend only a copy of the track and labels.

@@ -1,3 +1,5 @@
+"use client";
+
 import { Popover } from "@liquikit/react";
 
 export default function PopoverDemo() {

@@ -1,3 +1,5 @@
+"use client";
+
 import { Collapsible } from "@liquikit/react";
 
 export default function CollapsibleDemo() {

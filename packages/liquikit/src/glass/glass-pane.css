@@ -2,12 +2,17 @@
 	position: relative;
 	display: inline-block;
 	isolation: isolate;
-	--glass-pane-tint: #fff;
-	--glass-pane-ink: rgb(0 0 0 / 0.88);
 	color: var(--glass-pane-ink);
 }
 
-.glass-pane[data-theme="dark"] {
+/* The defaults weigh nothing, so an app's own tint wins whichever stylesheet
+   loads first. */
+:where(.glass-pane) {
+	--glass-pane-tint: #fff;
+	--glass-pane-ink: rgb(0 0 0 / 0.88);
+}
+
+:where(.glass-pane[data-theme="dark"]) {
 	--glass-pane-tint: #2a2a2e;
 	--glass-pane-ink: rgb(255 255 255 / 0.92);
 }

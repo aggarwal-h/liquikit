@@ -1,3 +1,5 @@
+"use client";
+
 import { Combobox } from "@liquikit/react";
 
 const TOPPINGS = [

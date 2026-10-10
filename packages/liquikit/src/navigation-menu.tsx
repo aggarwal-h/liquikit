@@ -103,7 +103,7 @@ function List({
 				/>
 			)}
 		>
-			<span className="glass-ui-nav__row">{children}</span>
+			<ul className="glass-ui-nav__row">{children}</ul>
 		</BaseNavigationMenu.List>
 	);
 }

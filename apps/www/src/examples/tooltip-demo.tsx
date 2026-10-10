@@ -1,3 +1,5 @@
+"use client";
+
 import { Tooltip } from "@liquikit/react";
 import { Heart, Share, Trash2 } from "lucide-react";
 

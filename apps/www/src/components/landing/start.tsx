@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import { site } from "@/lib/site";
+import { registryUrl, site } from "@/lib/site";
 
-const COMMAND = "npx shadcn@latest add @liquikit/all";
+const COMMAND = `npx shadcn@latest add ${registryUrl}/all.json`;
 
 export function Start() {
 	const [copied, setCopied] = useState(false);
@@ -13,9 +13,9 @@ export function Start() {
 				Install in one command
 			</h2>
 			<p className="mx-auto mt-5 max-w-[540px] text-[17px] leading-[1.55] text-white/60">
-				Add the {site.namespace} registry to your components.json, then install
-				any component with the shadcn CLI. The code lands in your project, yours
-				to change.
+				Run it in a shadcn project to add every component, or add the{" "}
+				{site.namespace} registry to your components.json to install them by
+				name. The code lands in your project, yours to change.
 			</p>
 			<div className="mt-9 flex flex-wrap items-center justify-center gap-3">
 				<button

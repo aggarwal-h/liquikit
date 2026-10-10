@@ -1,3 +1,5 @@
+"use client";
+
 import { Field, Input } from "@liquikit/react";
 
 export default function FieldDemo() {

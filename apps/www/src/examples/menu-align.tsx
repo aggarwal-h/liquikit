@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu } from "@liquikit/react";
 
 const ALIGNMENTS = ["start", "center", "end"] as const;

@@ -1,3 +1,5 @@
+"use client";
+
 import { Switch } from "@liquikit/react";
 import { useState } from "react";
 

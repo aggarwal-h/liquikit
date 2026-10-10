@@ -1,3 +1,5 @@
+"use client";
+
 import { Autocomplete } from "@liquikit/react";
 
 const CITIES = [

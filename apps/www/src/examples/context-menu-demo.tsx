@@ -1,3 +1,5 @@
+"use client";
+
 import { ContextMenu, Menu } from "@liquikit/react";
 
 export default function ContextMenuDemo() {

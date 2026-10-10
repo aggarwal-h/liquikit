@@ -1,6 +1,6 @@
-:root,
-[data-glass-theme="light"],
-.glass-pane[data-theme="light"] {
+/* The defaults weigh nothing, so an app's own value for any of these wins
+   whichever stylesheet loads first. */
+:where(:root, [data-glass-theme="light"], .glass-pane[data-theme="light"]) {
 	--glass-ui-ink: 0 0 0;
 	--glass-ui-paper: 255 255 255;
 	--glass-ui-danger: #e5484d;
@@ -11,12 +11,11 @@
 	--glass-ui-edge: rgb(0 0 0 / 0.14);
 }
 
-:root {
+:where(:root) {
 	--glass-accent: #7774ff;
 }
 
-[data-glass-theme="dark"],
-.glass-pane[data-theme="dark"] {
+:where([data-glass-theme="dark"], .glass-pane[data-theme="dark"]) {
 	--glass-ui-ink: 255 255 255;
 	--glass-ui-paper: 0 0 0;
 	--glass-ui-danger: #ff6369;
@@ -1699,7 +1698,9 @@
 	display: flex;
 	align-items: center;
 	gap: 2px;
+	margin: 0;
 	padding: 6px 8px;
+	list-style: none;
 }
 
 .glass-ui-nav__trigger {

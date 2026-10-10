@@ -6,7 +6,8 @@
 			"**",
 			"!**/routeTree.gen.ts",
 			"!**/public/r",
-			"!**/registry.json"
+			"!**/registry.json",
+			"!design"
 		]
 	},
 	"formatter": { "enabled": true, "indentStyle": "tab" },

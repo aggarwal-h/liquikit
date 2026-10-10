@@ -1,3 +1,5 @@
+"use client";
+
 import { Progress } from "@liquikit/react";
 import { useEffect, useState } from "react";
 

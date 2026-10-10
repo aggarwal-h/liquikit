@@ -1,3 +1,5 @@
+"use client";
+
 import { Tabs } from "@liquikit/react";
 
 export default function TabsDemo() {

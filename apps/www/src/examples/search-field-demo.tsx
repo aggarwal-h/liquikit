@@ -1,3 +1,5 @@
+"use client";
+
 import { SearchField } from "@liquikit/react";
 import { useState } from "react";
 
