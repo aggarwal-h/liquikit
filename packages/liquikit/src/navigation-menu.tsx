@@ -166,11 +166,14 @@ function Content({
 	);
 }
 
+// A link closes the menu, unlike Base UI's default: in an app that routes on
+// the client the page never reloads, so a menu left open would stay over it.
 function Link({
 	className,
 	title,
 	description,
 	children,
+	closeOnClick = true,
 	...linkProps
 }: Classed<BaseNavigationMenu.Link.Props> & {
 	title?: ReactNode;
@@ -181,6 +184,7 @@ function Link({
 		return (
 			<BaseNavigationMenu.Link
 				{...linkProps}
+				closeOnClick={closeOnClick}
 				className={cx("glass-ui-nav__card", className)}
 			>
 				<span className="glass-ui-nav__card-title">{title}</span>
@@ -193,6 +197,7 @@ function Link({
 	return (
 		<BaseNavigationMenu.Link
 			{...linkProps}
+			closeOnClick={closeOnClick}
 			className={cx("glass-ui-toolbar__button", className)}
 		>
 			{children}
