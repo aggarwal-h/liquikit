@@ -53,7 +53,7 @@ export function Slider({
 	min = 0,
 	max = 100,
 	step = 1,
-	width = 240,
+	width,
 	trackHeight,
 	thumbHeight = 22,
 	thumbWidth,
@@ -98,7 +98,8 @@ export function Slider({
 			step={step}
 			thumbAlignment="edge"
 			className={cx("glass-ui-slider", className)}
-			style={{ ...style, width }}
+			data-fluid={width === undefined ? "" : undefined}
+			style={width === undefined ? style : { ...style, width }}
 		>
 			<GlassSliderSurface
 				value={current}

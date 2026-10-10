@@ -22,9 +22,22 @@
 		--glass-accent-fill,
 		color(display-p3 0.596 0.588 1)
 	);
-	--slider-fill: 0px;
+	--slider-fill: 0%;
 	--slider-progress: 0;
 	--glass-body: #fff;
+}
+
+/* A slider that fills its container draws its resting handle in CSS until it
+   has measured itself, so a server-rendered page shows it at the right size. */
+.glass-slider__rest {
+	position: absolute;
+	top: 0;
+	left: calc(var(--slider-progress) * (100% - var(--slider-thumb-width)));
+	width: var(--slider-thumb-width);
+	height: 100%;
+	/* The glass body itself is white in both themes, like iOS's knobs. */
+	background: #fff;
+	border-radius: 999px;
 }
 
 .glass-slider__box[data-theme="dark"] {

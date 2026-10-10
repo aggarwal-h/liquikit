@@ -33,6 +33,7 @@ export function useSquish(
 	const lag = useMotionValue(0);
 	const held = useRef(0);
 	const start = useRef<() => void>(() => {});
+	const rebase = useRef<() => void>(() => {});
 	const pending = useRef(0);
 	const amount = enabled ? Math.max(0, liquid) : 0;
 
@@ -142,13 +143,22 @@ export function useSquish(
 			frame = requestAnimationFrame(step);
 		};
 
+		rebase.current = () => {
+			previous = position.get();
+		};
+
 		const unsubscribe = position.on("change", () => start.current());
 		return () => {
 			unsubscribe();
 			cancelAnimationFrame(frame);
 			start.current = () => {};
+			rebase.current = () => {};
 		};
 	}, [amount, enabled, lag, position, speedSquash, squish]);
+
+	// A move that was a jump, such as a track resizing under its handle, is not
+	// speed: the next frame measures from where the jump landed.
+	const jumped = useCallback(() => rebase.current(), []);
 
 	const setHeld = useCallback((value: boolean) => {
 		held.current = value ? HELD_SQUASH : 0;
@@ -164,7 +174,7 @@ export function useSquish(
 		[amount],
 	);
 
-	return { squish, lag: amount > 0 ? lag : undefined, setHeld, kick };
+	return { squish, lag: amount > 0 ? lag : undefined, setHeld, kick, jumped };
 }
 
 export function squashed(base: number, amount: number, across: boolean) {

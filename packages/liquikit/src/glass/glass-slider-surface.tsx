@@ -6,6 +6,8 @@ import {
 	type ReactNode,
 	type Ref,
 	useImperativeHandle,
+	useLayoutEffect,
+	useState,
 } from "react";
 import { Glass } from "./glass";
 import "./glass-slider.css";
@@ -30,6 +32,9 @@ export type GlassSliderSurfaceProps = Omit<
 		controlsRef?: Ref<UseGlassSliderResult>;
 	};
 
+// What a slider with no width is laid out at before it has measured itself.
+const FALLBACK_WIDTH = 240;
+
 export function GlassSliderSurface({
 	lens: lensOverrides,
 	theme: themeProp,
@@ -42,11 +47,31 @@ export function GlassSliderSurface({
 }: GlassSliderSurfaceProps) {
 	const theme = useGlassTheme(themeProp);
 	const lens = useLens(theme, lensOverrides, sliderLens);
-	const controls = useGlassSlider(options);
+	// With no width the slider fills its container, at the width it measures.
+	const fluid = options.width === undefined;
+	const [measured, setMeasured] = useState<number | null>(null);
+	const controls = useGlassSlider({
+		...options,
+		width: options.width ?? measured ?? FALLBACK_WIDTH,
+	});
 	const { geometry, lensProps, trackProps, rootRef, hitRef, rootStyle } =
 		controls;
 	useImperativeHandle(controlsRef, () => controls, [controls]);
-	const { width, thumbHeight, trackHeight, margin } = geometry;
+	const { width, thumbWidth, thumbHeight, trackHeight, margin } = geometry;
+
+	useLayoutEffect(() => {
+		const box = rootRef.current;
+		if (!fluid || !box) return;
+		// Layout width, so a scaled ancestor, such as a popup growing in, is
+		// measured at its real size.
+		const measure = () => {
+			if (box.offsetWidth > 0) setMeasured(box.offsetWidth);
+		};
+		measure();
+		const observer = new ResizeObserver(measure);
+		observer.observe(box);
+		return () => observer.disconnect();
+	}, [fluid, rootRef]);
 
 	const track = (
 		<div
@@ -68,39 +93,57 @@ export function GlassSliderSurface({
 			data-theme={theme}
 			data-disabled={options.disabled ? "" : undefined}
 			style={
-				{ ...rootStyle, ...style, width, height: thumbHeight } as CSSProperties
+				{
+					...rootStyle,
+					...style,
+					width: fluid ? undefined : width,
+					height: thumbHeight,
+					"--slider-thumb-width": `${thumbWidth}px`,
+				} as CSSProperties
 			}
 		>
-			<Glass
-				className="glass-slider__glass"
-				{...lensProps}
-				style={{ margin: -margin }}
-				lens={lens}
-				refractionTarget={
+			{fluid && measured === null ? (
+				<>
+					<div className="glass-slider__row" style={{ height: thumbHeight }}>
+						{track}
+					</div>
+					<span
+						className="glass-slider__rest"
+						style={{ boxShadow: lens.restEdgeShadow }}
+					/>
+				</>
+			) : (
+				<Glass
+					className="glass-slider__glass"
+					{...lensProps}
+					style={{ margin: -margin }}
+					lens={lens}
+					refractionTarget={
+						<div style={{ padding: margin }}>
+							<div
+								className="glass-slider__row"
+								style={{ width, height: thumbHeight }}
+							>
+								{track}
+							</div>
+						</div>
+					}
+				>
 					<div style={{ padding: margin }}>
 						<div
-							className="glass-slider__row"
+							ref={(element) => {
+								hitRef.current = element;
+							}}
+							className="glass-slider__row glass-slider__hit"
+							aria-hidden="true"
 							style={{ width, height: thumbHeight }}
+							{...trackProps}
 						>
 							{track}
 						</div>
 					</div>
-				}
-			>
-				<div style={{ padding: margin }}>
-					<div
-						ref={(element) => {
-							hitRef.current = element;
-						}}
-						className="glass-slider__row glass-slider__hit"
-						aria-hidden="true"
-						style={{ width, height: thumbHeight }}
-						{...trackProps}
-					>
-						{track}
-					</div>
-				</div>
-			</Glass>
+				</Glass>
+			)}
 			{overlay}
 		</span>
 	);

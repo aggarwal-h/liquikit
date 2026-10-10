@@ -57,6 +57,12 @@
 	-webkit-tap-highlight-color: transparent;
 }
 
+/* Without a width, a slider fills its container. Being a block is what fills
+   it, so a width from a class still applies. */
+.glass-ui-slider[data-fluid] {
+	display: block;
+}
+
 .glass-ui-slider[data-disabled] {
 	cursor: not-allowed;
 	opacity: 0.48;

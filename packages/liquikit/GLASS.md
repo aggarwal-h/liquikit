@@ -606,6 +606,13 @@ draws the resting state itself, and the frames take over from it:
   them once, so a later render never writes over what the frames have drawn.
 - The switch's and the slider's fills start from their values, through the
   root's `style`.
+- A slider with no `width` fills its container, and cannot know its size until
+  it measures it. Until then CSS draws the resting track, fill and handle
+  across whatever width it has: the fill is a share of the track, not pixels,
+  and the handle sits at its progress of the track less its own width. Once
+  measured, a new width moves the handle with `jump`, which carries no
+  velocity, so neither the travel spring nor the squash reads a resize as a
+  throw.
 - A segmented control cannot know where its options are until it measures
   them, so until then CSS draws the resting pill behind the chosen label.
 - A pane cannot draw its glass until it knows its size, so until then CSS
@@ -779,7 +786,7 @@ its proportions.
 
 | | Switch | Slider | Toggle group |
 | --- | --- | --- | --- |
-| Track | `74 × 28` | `240 × 6` | `auto × 36` |
+| Track | `74 × 28` | `container × 6` | `auto × 36` |
 | Inset | `round(0.107 × h)` | none | `round(0.107 × h)` |
 | Handle | `2 × thumbHeight` | `2 × thumbHeight` | measured per option |
 | Pressed glass | `1.45h` tall, `1.5 : 1`, capsule | `1.4 ×` handle, capsule | `1.4 ×` pill height, grown evenly, capsule |

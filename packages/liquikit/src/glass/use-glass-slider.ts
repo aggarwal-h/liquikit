@@ -13,6 +13,7 @@ import {
 	type RefObject,
 	useCallback,
 	useEffect,
+	useLayoutEffect,
 	useRef,
 	useState,
 } from "react";
@@ -137,7 +138,11 @@ export function useGlassSlider({
 	const restProgress = useMotionValue(1);
 	const shadowOpacity = useMotionValue(0);
 
-	const { squish, lag, setHeld, kick } = useSquish(x, !reduceMotion, liquid);
+	const { squish, lag, setHeld, kick, jumped } = useSquish(
+		x,
+		!reduceMotion,
+		liquid,
+	);
 
 	const lensWidth = useTransform(
 		[lensHalfWidth, squish],
@@ -192,10 +197,12 @@ export function useGlassSlider({
 		],
 	);
 
+	// The fill is a share of the track, so it is right at any width, including
+	// before a slider that fills its container has measured it.
 	const [rootStyle] = useState(() => {
 		const progress = travel > 0 ? clamp(x.get() / travel, 0, 1) : 0;
 		return {
-			"--slider-fill": `${progress * width}px`,
+			"--slider-fill": `${progress * 100}%`,
 			"--slider-progress": String(progress),
 		};
 	});
@@ -205,12 +212,26 @@ export function useGlassSlider({
 			const root = rootRef.current;
 			if (!root) return;
 			const progress = travel > 0 ? clamp(at / travel, 0, 1) : 0;
-			root.style.setProperty("--slider-fill", `${progress * width}px`);
+			root.style.setProperty("--slider-fill", `${progress * 100}%`);
 			root.style.setProperty("--slider-progress", String(progress));
 		};
 		apply(x.get());
 		return x.on("change", apply);
-	}, [travel, width, x]);
+	}, [travel, x]);
+
+	// A new width moves the handle to where its value now sits, at once: a spring
+	// would slide it across the track every time the container resized.
+	const lastTravel = useRef(travel);
+	useLayoutEffect(() => {
+		if (lastTravel.current === travel) return;
+		lastTravel.current = travel;
+		if (dragging.current) return;
+		moveAnimation.current?.stop();
+		// jump, not set: set would record the move as velocity, and the spring
+		// that follows a value change would carry it past the new spot and back.
+		x.jump(offsetFor(value));
+		jumped();
+	}, [jumped, offsetFor, travel, value, x]);
 
 	useEffect(() => {
 		if (dragging.current) return;
