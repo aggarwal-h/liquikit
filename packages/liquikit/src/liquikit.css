@@ -797,9 +797,10 @@
 	outline-offset: 2px;
 }
 
+/* Fills its container, like a text field. As a block with no width of its own,
+   a width from a class or a wrapper sizes it. */
 .glass-ui-search {
-	display: inline-block;
-	width: 280px;
+	display: block;
 }
 
 .glass-ui-search__row {

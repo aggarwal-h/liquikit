@@ -6,9 +6,9 @@ import { useState } from "react";
 export default function SearchFieldDemo() {
 	const [query, setQuery] = useState("");
 	return (
-		<div className="flex flex-col items-center gap-3">
+		<div className="flex w-full max-w-[280px] flex-col gap-3">
 			<SearchField value={query} onValueChange={setQuery} aria-label="Search" />
-			<p className="h-4 text-[13px] text-white/55">
+			<p className="h-4 text-center text-[13px] text-white/55">
 				{query ? `Searching for “${query}”` : ""}
 			</p>
 		</div>
