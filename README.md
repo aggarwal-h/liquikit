@@ -54,6 +54,10 @@ cd apps/www && REGISTRY_URL=http://localhost:3000/r bun run registry:build
 
 The engine's design notes are in [`packages/liquikit/GLASS.md`](packages/liquikit/GLASS.md).
 
+## Acknowledgements
+
+Refracting the page through a displacement map traced with Snell's law follows Chris Feijoo's [Liquid Glass in the Browser: Refraction with CSS and SVG](https://kube.io/blog/liquid-glass-css-svg/), also given as a [talk at BeJS](https://www.youtube.com/watch?v=p1ORlG2dCK8). The slider's lens is fitted to the one in his talk.
+
 ## License
 
 [MIT](LICENSE)
