@@ -341,6 +341,12 @@
 	outline: none;
 }
 
+/* On a layer of its own: Safari flashes a line across the content as it
+   promotes it when the blur starts and demotes it when the blur ends. */
+.glass-ui-popup__content {
+	will-change: filter;
+}
+
 .glass-ui-menu__list {
 	display: flex;
 	flex-direction: column;
