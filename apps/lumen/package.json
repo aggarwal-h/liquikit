@@ -1,0 +1,25 @@
+{
+	"name": "@liquikit/lumen",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --port 3200",
+		"build": "next build",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"cn": "^0.4.0",
+		"lucide-react": "^1.55.0",
+		"motion": "^13.5.1",
+		"next": "16.4.0",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/turbopack": "^4",
+		"@types/node": "^22.10.2",
+		"@types/react": "^19.2.0",
+		"@types/react-dom": "^19.2.0",
+		"tailwindcss": "^4",
+		"typescript": "^5"
+	}
+}

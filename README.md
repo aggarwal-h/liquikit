@@ -31,11 +31,12 @@ In React Server Components, use the named parts of compound components (`MenuRoo
 | `packages/liquikit` | The components and the glass engine. The source of every registry item. |
 | `packages/liquikit/scripts/registry.ts` | Writes `registry.json`, deriving each item's dependencies from its imports. |
 | `apps/www` | The site (TanStack Start). Serves the built registry at `/r`. |
+| `apps/lumen` | Lumen, a sample product page (Next.js), served at `liquikit.dev/lumen` from the site's build. |
 
 ```bash
 bun install
-bun run dev        # builds the registry, then starts the site on :3000
-bun run build      # registry, then a prerendered site in apps/www/dist
+bun run dev        # builds the registry, then starts the site on :3000 and Lumen on :3200
+bun run build      # registry, Lumen, then a prerendered site in apps/www/dist
 bun run typecheck
 bun run check      # Biome
 ```

@@ -1,0 +1,242 @@
+@import "tailwindcss";
+
+/* One product on black, like a launch page. The lamp is the only light. */
+:root {
+	--page: #000;
+	--ink: #f5f5f7;
+	--muted: #86868b;
+	--hair: rgb(255 255 255 / 0.14);
+	--link: #2997ff;
+	--action: #0071e3;
+	--wall: #f5f5f7;
+	color-scheme: dark;
+
+	/* LiquiKit: system blue for buttons and focus. */
+	--glass-accent: #0a84ff;
+}
+
+@theme {
+	--font-sans:
+		-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+		var(--font-inter), "Helvetica Neue", Arial, sans-serif;
+}
+
+@layer base {
+	html,
+	body {
+		background: var(--page);
+		color: var(--ink);
+	}
+
+	body {
+		font-family: var(--font-sans);
+		font-size: 17px;
+		line-height: 1.47;
+		letter-spacing: -0.022em;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	h1,
+	h2,
+	h3 {
+		text-wrap: balance;
+	}
+}
+
+/* Control Center's sliders run white and its switches turn green. */
+.lumen .glass-slider__box {
+	--glass-slider-fill: #f5f5f7;
+}
+
+.lumen .glass-switch__box {
+	--glass-switch-on: #30d158;
+}
+
+/* The lamp: a brushed ring around a diffuser, with a halo that fades out
+   within a third of its size. The colours are typed so a scene change fades. */
+@property --edge {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: transparent;
+}
+
+@property --light {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: transparent;
+}
+
+@property --core {
+	syntax: "<color>";
+	inherits: true;
+	initial-value: transparent;
+}
+
+@property --level {
+	syntax: "<number>";
+	inherits: true;
+	initial-value: 0;
+}
+
+@property --glow {
+	syntax: "<number>";
+	inherits: true;
+	initial-value: 0;
+}
+
+.lamp {
+	position: relative;
+	width: var(--lamp-size);
+	aspect-ratio: 1;
+	max-width: 100%;
+	transition:
+		--edge 500ms ease,
+		--light 500ms ease,
+		--core 500ms ease,
+		--level 300ms ease,
+		--glow 300ms ease;
+}
+
+.lamp__bloom {
+	position: absolute;
+	inset: -40%;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle closest-side,
+		color-mix(in srgb, var(--edge) 60%, transparent) 0%,
+		color-mix(in srgb, var(--edge) 42%, transparent) 56%,
+		color-mix(in srgb, var(--edge) 20%, transparent) 67%,
+		color-mix(in srgb, var(--edge) 6%, transparent) 79%,
+		color-mix(in srgb, var(--edge) 1%, transparent) 90%,
+		transparent 100%
+	);
+	opacity: var(--glow);
+}
+
+/* A gradient, not a box-shadow: Chromium tiles big blurred shadows, and the
+   tiles show on a pale wall. */
+.lamp__shadow {
+	position: absolute;
+	inset: -12% -16% -28%;
+	border-radius: 50%;
+	background: radial-gradient(
+		ellipse closest-side at 50% 45%,
+		rgb(0 0 0 / 0.42),
+		rgb(0 0 0 / 0.18) 55%,
+		transparent 100%
+	);
+}
+
+.lamp__ring {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: var(--finish);
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.5),
+		inset 0 -2px 6px rgb(0 0 0 / 0.35);
+}
+
+/* The ring catches the lamp's own light, so it darkens as the lamp dims. */
+.lamp__ring::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	border-radius: inherit;
+	background: #000;
+	opacity: calc(0.4 * (1 - min(1, var(--level) * 1.6)));
+}
+
+.lamp__disc {
+	position: absolute;
+	inset: 5.5%;
+	border-radius: 50%;
+	overflow: hidden;
+	background: radial-gradient(
+		circle at 50% 46%,
+		var(--core) 0%,
+		var(--core) 16%,
+		var(--light) 58%,
+		var(--edge) 100%
+	);
+	/* The light reaching the inside of the ring. */
+	box-shadow: 0 0 calc(var(--lamp-size) * 0.05)
+		color-mix(in srgb, var(--edge) calc(75% * var(--glow)), transparent);
+}
+
+/* Dims towards black on a curve that holds the centre longest. */
+.lamp__dim {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(
+		circle at 50% 46%,
+		rgb(6 6 7 / 0.45),
+		rgb(6 6 7 / 0.85) 55%,
+		rgb(6 6 7) 100%
+	);
+	opacity: calc((1 - var(--level)) * (1 - var(--level)) * 0.85);
+}
+
+/* Switched off, the diffuser is frosted glass in a dark room. */
+.lamp__off {
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(circle at 50% 40%, #2a2a2d, #141416 75%);
+	opacity: 0;
+	transition: opacity 450ms ease;
+}
+
+.lamp[data-off] .lamp__off {
+	opacity: 1;
+}
+
+/* Plain alpha: a blend mode inside a glass sheet breaks its frost in Chromium. */
+.lamp__sheen {
+	position: absolute;
+	inset: 5.5%;
+	border-radius: 50%;
+	background: linear-gradient(160deg, rgb(255 255 255 / 0.1), transparent 36%);
+}
+
+/* A colour-temperature slider shows the range it picks from. */
+.kelvin .glass-slider__box {
+	--glass-slider-track: linear-gradient(90deg, #ffb066, #fff1e0 50%, #cfe2ff);
+	--glass-slider-fill: transparent;
+}
+
+/* A slider through the day shows the light at every hour. */
+.day .glass-slider__box {
+	--glass-slider-track: var(--day-track);
+	--glass-slider-fill: transparent;
+}
+
+/* A capsule over the lamp. On dark stages the track lets the glow through. */
+.capsule .glass-segmented__option {
+	padding: 0 14px;
+	font-size: 13px;
+}
+
+@media (min-width: 640px) {
+	.capsule .glass-segmented__option {
+		padding: 0 20px;
+		font-size: 15px;
+	}
+}
+
+.on-dark .glass-segmented__box {
+	--toggle-track: rgb(255 255 255 / 0.1);
+	--toggle-divider: rgb(255 255 255 / 0.14);
+	--toggle-label: rgb(255 255 255 / 0.7);
+}
+
+.on-light .glass-segmented__box {
+	--toggle-track: rgb(0 0 0 / 0.06);
+	--toggle-divider: rgb(0 0 0 / 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lamp,
+	.lamp__off {
+		transition: none;
+	}
+}

@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev --port 3000",
-		"build": "vite build",
+		"build": "vite build && rm -rf dist/client/lumen && cp -R ../lumen/out dist/client/lumen",
 		"preview": "vite preview",
 		"typecheck": "tsc",
 		"registry:build": "bun ../../packages/liquikit/scripts/registry.ts && shadcn build -c ../../packages/liquikit -o ../../apps/www/public/r"
