@@ -20,7 +20,7 @@ Then add components:
 npx shadcn@latest add @liquikit/switch @liquikit/menu
 ```
 
-Components land in `components/liquikit/`, with the refraction engine in `components/liquikit/glass/`. The glass bends what is behind it, so wrap that area in a `GlassScope` and pass its background as `backdrop`.
+Components land in `components/liquikit/`, with the refraction engine in `components/liquikit/glass/`. The glass bends what is around it, so wrap that area in a `GlassScope` and pass its background as `backdrop`.
 
 In React Server Components, use the named parts of compound components (`MenuRoot`, `MenuTrigger`, `MenuPopup`…). The `Menu.Root` form works in client components.
 

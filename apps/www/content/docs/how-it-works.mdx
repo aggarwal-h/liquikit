@@ -32,7 +32,7 @@ The glass bends the page while you use it: while it is pressed, dragged or focus
 
 ## What the glass bends
 
-Chromium can run the filter on whatever is behind an element. Safari and Firefox cannot, so there the glass bends a copy of the background you pass to `GlassScope` as `backdrop`, cut to the size of the lens. Inside a scope, buttons, fields and other panes use that copy in Chromium too, so they look the same everywhere.
+Chromium can run the filter on whatever is behind an element. Safari and Firefox cannot, so the glass bends the content of the `GlassScope` you wrap around an area instead: the filter runs on the scope's own content, with each lens placed where its glass sits, in every browser. Pass the background as `backdrop` and put the rest inside as children.
 
 ```tsx
 <GlassScope backdrop={<img src="/photo.jpg" alt="" className="size-full object-cover" />}>
@@ -40,14 +40,14 @@ Chromium can run the filter on whatever is behind an element. Safari and Firefox
 </GlassScope>
 ```
 
-Switches, sliders and segmented controls bend the page behind them in Chromium. In Safari and Firefox they bend the backdrop, with their own track and labels drawn on top.
+Inside a scope, switches, sliders and segmented controls bend their own track and labels with the rest. Outside one, Chromium bends the page behind them and Safari and Firefox bend a copy of the track.
 
 [Limitations](/docs/limitations) covers what the copy can and cannot show.
 
 ## Cost
 
-A resting component carries no filter. In use, only the glass being used carries one, and it covers little more than the lens, so it stays at full frame rate.
+A resting component carries no filter. In use, the scope around the glass being used carries one, so a scope kept to the area that needs it stays at full frame rate.
 
-Glass set to `refraction="always"` keeps its filter while it is on screen. Safari and Firefox draw filters on the processor and draw them again when they scroll back into view, so there it starts to bend once it is on screen and the page has stopped scrolling. The backdrop is drawn again under every bending pane, so the lighter it is, the less that costs: photos and gradients are cheap, SVG artwork with its own blur filters is not.
+Glass set to `refraction="always"` keeps its filter while it is on screen. Safari and Firefox draw filters on the processor and draw them again when they scroll back into view, so there it starts to bend once it is on screen and the page has stopped scrolling. The filter covers the scope, so the smaller the scope and the lighter its content, the less a frame costs: gradients and photos are cheap, SVG artwork with blur filters of its own is not. A scope with `refraction="backdrop"` filters a lens-sized copy of the backdrop instead, at the same cost whatever its size.
 
 The first press on a component needs its lens maps. LiquiKit builds the likely ones while the page is idle, so that press does not stall.

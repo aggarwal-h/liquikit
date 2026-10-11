@@ -104,6 +104,14 @@ const PARTS: Record<string, Entry> = {
 	"GlassThemeProvider.theme": "The theme for every glass component inside it.",
 	"GlassScope.backdrop":
 		"The background of this area, drawn behind the content. Glass in the scope bends a copy of it.",
+	"GlassScope.refraction": {
+		text: "What glass in the scope bends. `content` runs the lens filter on the scope's own content, so a control bends its real track and a pane whatever is under it, in every browser; the filter covers the whole scope, so it suits a scope around a few components. `backdrop` bends a lens-sized copy of the backdrop under each lens instead, which costs the same however large the scope is, and bends nothing else.",
+		default: '"content"',
+	},
+	"GlassScope.bleed": {
+		text: "With `content`, how far past the scope's edge a lens is still bent, in pixels. A control at the edge then bends to its outline rather than stopping at the scope's box.",
+		default: "40",
+	},
 };
 
 export function describe(part: string, prop: string) {
