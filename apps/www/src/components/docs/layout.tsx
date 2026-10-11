@@ -49,6 +49,22 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
 					</ul>
 				</div>
 			))}
+			<div>
+				<p className="mb-2 px-3 text-[12.5px] font-medium text-white/50">
+					More
+				</p>
+				<ul className="flex flex-col gap-px">
+					<li>
+						<Link
+							to="/examples"
+							onClick={onNavigate}
+							className="block rounded-[9px] px-3 py-[7px] text-[14px] text-white/60 transition-colors hover:bg-white/[0.04] hover:text-white"
+						>
+							Examples
+						</Link>
+					</li>
+				</ul>
+			</div>
 		</nav>
 	);
 }

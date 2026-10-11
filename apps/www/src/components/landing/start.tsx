@@ -43,6 +43,15 @@ export function Start() {
 					Read the docs
 				</Link>
 			</div>
+			<p className="mt-7 text-[15px] text-white/60">
+				See it in a finished page:{" "}
+				<Link
+					to="/examples"
+					className="text-white underline decoration-white/30 underline-offset-[3px] transition-colors hover:decoration-white"
+				>
+					Examples
+				</Link>
+			</p>
 		</section>
 	);
 }

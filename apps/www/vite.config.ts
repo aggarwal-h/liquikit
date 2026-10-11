@@ -57,6 +57,8 @@ export default defineConfig({
 					},
 					sitemap: { exclude: true },
 				},
+				// Built by apps/lumen and copied into dist, so only in the sitemap.
+				{ path: "/lumen", prerender: { enabled: false } },
 			],
 			sitemap: { host: site.url },
 		}),
