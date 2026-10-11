@@ -13,6 +13,13 @@
 			"dependsOn": ["^build", "registry:build"],
 			"outputs": ["dist/**", ".output/**"]
 		},
+		"@liquikit/lumen#build": {
+			"outputs": ["out/**", ".next/**", "!.next/cache/**"]
+		},
+		"@liquikit/www#build": {
+			"dependsOn": ["^build", "registry:build", "@liquikit/lumen#build"],
+			"outputs": ["dist/**"]
+		},
 		"dev": {
 			"dependsOn": ["registry:build"],
 			"cache": false,

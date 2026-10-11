@@ -19,6 +19,42 @@
 	inset: 0;
 }
 
+/* The filtered layer of a content scope, padded by the bleed. WebKit measures
+   a filter from the nearest transformed element. */
+.glass-scope__content {
+	position: relative;
+	box-sizing: content-box;
+	height: 100%;
+	transform: translate(0);
+	/* Inherited so a recolour follows at once; painted inside the bleed only. */
+	background: inherit;
+	background-clip: content-box;
+	background-origin: content-box;
+	pointer-events: none;
+}
+
+/* Or the layer's negative margin collapses through the scope. */
+.glass-scope--in-place {
+	contain: layout;
+}
+
+/* The scope's own box, isolated so the backdrop's z-index -1 stays above
+   the layer's background. */
+.glass-scope__inner {
+	position: relative;
+	height: 100%;
+	isolation: isolate;
+	pointer-events: auto;
+}
+
+.glass-scope__defs {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
 /* Safari paints a partial repaint of a filtered layer black, so the lens
    keeps a layer of its own. WebKit measures a filter from the nearest
    transformed element, so it carries an identity transform too. */
@@ -110,6 +146,14 @@
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	will-change: transform;
+}
+
+/* Overlays in a filtered layer must not be composited. */
+.glass[data-flat] .glass__rim,
+.glass[data-flat] .glass__tint,
+.glass[data-flat] .glass__frost,
+.glass[data-flat] .glass__light {
+	will-change: auto;
 }
 
 .glass-theme {

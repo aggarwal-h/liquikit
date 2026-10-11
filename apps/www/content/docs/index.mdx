@@ -17,6 +17,10 @@ npx shadcn@latest add @liquikit/switch
 
 The glass bends what is behind it. For every surface, LiquiKit traces a ray of light through a curved piece of glass using Snell's law and records how far each point moves. While you use a component, an SVG filter moves the pixels behind it by that much. See [How it works](/docs/how-it-works) for the details.
 
+## See it in a page
+
+The [examples](/examples) are finished pages built with these components, such as Lumen, a product page for a smart lamp. Each one links to its source in the repository, with notes on where the glass bends and why.
+
 ## Browser support
 
-The glass works in Chrome, Edge, Safari and Firefox. Safari and Firefox cannot filter what is behind an element, so there the glass bends a copy of the background you give it. [Limitations](/docs/limitations) lists where the browsers differ.
+The glass works in Chrome, Edge, Safari and Firefox. Safari and Firefox cannot filter what is behind an element, so the glass bends the content of the `GlassScope` you wrap around it. [Limitations](/docs/limitations) lists where the browsers differ.

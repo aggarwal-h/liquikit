@@ -47,6 +47,13 @@ export function SiteHeader({
 					>
 						Components
 					</Link>
+					<Link
+						to="/examples"
+						className="transition-colors hover:text-white"
+						activeProps={{ className: "text-white" }}
+					>
+						Examples
+					</Link>
 				</nav>
 				<div className="ml-auto flex items-center gap-2">
 					<a

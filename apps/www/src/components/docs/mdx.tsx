@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 import type { MDXComponents } from "mdx/types";
 import type { ComponentProps, ReactNode } from "react";
+import { site } from "@/lib/site";
 import { CodeBlock, useInBlock } from "./code-block";
 import { InlineCode } from "./inline";
 import { Install } from "./install";
@@ -34,7 +35,9 @@ function Heading({
 function Anchor({ href = "", children, ...props }: ComponentProps<"a">) {
 	const style =
 		"text-white underline decoration-white/30 underline-offset-[3px] transition-colors hover:decoration-white";
-	if (href.startsWith("/")) {
+	// Lumen lives beside the site, so it opens in a new tab.
+	const beside = href.startsWith(site.lumen);
+	if (href.startsWith("/") && !beside) {
 		return (
 			<Link to={href} className={style}>
 				{children}
@@ -42,7 +45,13 @@ function Anchor({ href = "", children, ...props }: ComponentProps<"a">) {
 		);
 	}
 	return (
-		<a {...props} href={href} className={style}>
+		<a
+			{...props}
+			href={href}
+			target={beside ? "_blank" : props.target}
+			rel={beside ? "noopener" : props.rel}
+			className={style}
+		>
 			{children}
 		</a>
 	);

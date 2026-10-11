@@ -51,7 +51,7 @@ export function Settings() {
 
 Glass shows off what is behind it. On a flat colour it reads as frosted glass with a bright rim; over a photo, a gradient or text you can see it bend. Put glass on a busy background where you can.
 
-Wrap the area in a `GlassScope` and pass the background as `backdrop`. While you use a component, the glass bends a copy of that backdrop. See [Limitations](/docs/limitations) for what the copy can and cannot show.
+Wrap the area in a `GlassScope` and pass the background as `backdrop`. While you use a component, the glass bends the scope's content: the backdrop, the components around it and its own track. Keep the scope to the area that needs it. See [Limitations](/docs/limitations) for what the glass can and cannot bend.
 
 ```tsx
 import { GlassScope } from "@/components/liquikit/glass"

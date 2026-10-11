@@ -53,6 +53,7 @@ export {
 	type GlassRefraction,
 	GlassScope,
 	type GlassScopeProps,
+	type GlassScopeRefraction,
 	type GlassTheme,
 	GlassThemeProvider,
 	type GlassThemeProviderProps,

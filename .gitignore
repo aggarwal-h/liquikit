@@ -12,3 +12,7 @@ dist
 .wrangler
 apps/www/public/r
 packages/liquikit/registry.json
+.next
+apps/lumen/out
+next-env.d.ts
+*.tsbuildinfo
