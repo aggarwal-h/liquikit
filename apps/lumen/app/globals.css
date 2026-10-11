@@ -198,14 +198,16 @@
 	background: linear-gradient(160deg, rgb(255 255 255 / 0.1), transparent 36%);
 }
 
+/* The engine sets these per theme on the box itself, so overrides need the
+   extra class to win whatever order the stylesheets load in. */
 /* A colour-temperature slider shows the range it picks from. */
-.kelvin .glass-slider__box {
+.lumen .kelvin .glass-slider__box {
 	--glass-slider-track: linear-gradient(90deg, #ffb066, #fff1e0 50%, #cfe2ff);
 	--glass-slider-fill: transparent;
 }
 
 /* A slider through the day shows the light at every hour. */
-.day .glass-slider__box {
+.lumen .day .glass-slider__box {
 	--glass-slider-track: var(--day-track);
 	--glass-slider-fill: transparent;
 }
@@ -223,13 +225,13 @@
 	}
 }
 
-.on-dark .glass-segmented__box {
+.lumen .on-dark .glass-segmented__box {
 	--toggle-track: rgb(255 255 255 / 0.1);
 	--toggle-divider: rgb(255 255 255 / 0.14);
 	--toggle-label: rgb(255 255 255 / 0.7);
 }
 
-.on-light .glass-segmented__box {
+.lumen .on-light .glass-segmented__box {
 	--toggle-track: rgb(0 0 0 / 0.06);
 	--toggle-divider: rgb(0 0 0 / 0.1);
 }
