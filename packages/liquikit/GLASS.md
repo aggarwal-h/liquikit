@@ -165,9 +165,10 @@ It changes its mind only once, out of `backdrop` (see below).
 
 | Mode | Runs on | Used by |
 | --- | --- | --- |
-| `lens` | A copy of the `GlassScope` backdrop, cut to the lens, through `filter` | Glass in a scope: panes in every browser, switches, sliders and segmented controls in Safari and Firefox |
-| `backdrop` | The page behind, through `backdrop-filter: url(#…)` | Switches, sliders and segmented controls in Chromium; panes with no scope in Chromium |
-| `copy` | `refractionTarget`, a copy of the control's own content on a see-through layer, lit by the baked light as it opens | Switches, sliders and segmented controls on other glass, or with no scope in Safari and Firefox |
+| `inplace` | The scope's own content, backdrop and children, through one `filter` on the scope's content layer | Every glass in a `GlassScope`, whose default is `refraction="content"`; glass on other glass there too in Chromium and Firefox |
+| `lens` | A copy of the `GlassScope` backdrop, cut to the lens, through `filter` | Glass in a scope with `refraction="backdrop"`: panes in every browser, switches, sliders and segmented controls in Safari and Firefox |
+| `backdrop` | The page behind, through `backdrop-filter: url(#…)` | Switches, sliders and segmented controls with no scope, or in a `backdrop` scope, in Chromium; panes with no scope in Chromium |
+| `copy` | `refractionTarget`, a copy of the control's own content on a see-through layer, lit by the baked light as it opens | Switches, sliders and segmented controls on other glass in Safari, or in a `backdrop` scope, or with no scope in Safari and Firefox |
 | `none` | Nothing: the glass keeps its frosted, lit look | Panes on other glass; panes with no scope in Safari and Firefox |
 
 GPU-composited Chromium (real Chrome on a Mac, not the headless builds tests
@@ -200,7 +201,8 @@ scope's copy, its own copy, or, for a pane, no bend at all.
 ### Scopes
 
 Safari and Firefox cannot hand an element a live picture of what is behind it.
-So the glass bends a copy of it. Pass the background to a `GlassScope`:
+So the glass bends what is around it instead: wrap the area in a `GlassScope`
+and pass its background as `backdrop`:
 
 ```tsx
 <GlassScope backdrop={<img src="/photo.jpg" alt="" className="size-full object-cover" />}>
@@ -208,11 +210,20 @@ So the glass bends a copy of it. Pass the background to a `GlassScope`:
 </GlassScope>
 ```
 
-The scope draws it behind its children, then keeps a pool of small
-boxes, each holding a second copy of it, laid out and empty at rest. A pane in
-use borrows one, moves it under its lens, sizes it to the lens and however far
-the filter reaches, and runs its filter on it. When the pane settles it hands
-the box back.
+By default (`refraction="content"`) the scope runs every lens in use in one
+filter on its own content, described under [Content](#content). With
+`refraction="backdrop"` it bends a copy of the backdrop instead, described
+next.
+
+### A copy of the backdrop
+
+With `refraction="backdrop"`, the scope draws the backdrop behind its
+children, then keeps a pool of small boxes, each holding a second copy of it,
+laid out and empty at rest. A pane in use borrows one, moves it under its lens,
+sizes it to the lens and however far the filter reaches, and runs its filter
+on it. When the pane settles it hands the box back. It costs the same however
+large the scope is, which is what it is for, and it bends nothing but the
+backdrop.
 
 Why a copy, and why so small:
 
@@ -241,6 +252,51 @@ What it asks of the backdrop:
   the original instead of doubling it. A backdrop that is translucent all the
   way down, over whatever the page has behind the scope, still doubles inside
   the box while the glass is in use.
+
+### Content
+
+`<GlassScope refraction="content">`, the default, runs the filter on the
+scope's own content instead of a copy. The backdrop and children sit in one
+layer, each lens is placed at its control's offset and clipped to its own
+outline, and the result is laid back over the source. So a switch bends its
+real track and whatever is under its thumb, a slider its track and fill, and
+a segmented pill the labels under it, in Safari and Firefox as well as
+Chromium. A scope with a see-through background gets one extra step: the
+outlines are cut out of the source first, or every translucent pixel under a
+lens would draw twice. The page behind such a scope is not in the layer, so
+it shows through unbent.
+
+A few things make this work:
+
+- The layer is padded by `bleed` (40px), so a control at the scope's edge
+  still bends to its outline instead of stopping at the box. An inner box of
+  the scope's own size holds the content, so percentages know nothing of it.
+- The layer inherits the scope's background, so the filter has something to
+  see and a recolour shows at once.
+- Every lens in use runs in one shared `<filter>`: the scope clones each
+  lens's primitives with prefixed names and merges them. Two `url()` filters
+  on one element leave one unrendered in Chromium and WebKit, and WebKit
+  drops a filter wrapped around a filtered layer.
+- Nothing inside the layer may be composited. WebKit paints a software filter
+  from the layer's own backing store, leaves composited descendants out of it
+  and promotes whatever overlaps them, so glass in a content scope flattens
+  its overlays (`data-flat`). Anything an app composites in the layer, such
+  as a video or a `will-change`, stays unbent in Safari.
+
+Glass on other glass bends in place too in Chromium and Firefox: a switch in
+a frosted card bends the card and its own track, with none of the flicker an
+SVG `backdrop-filter` shows over other glass. WebKit paints a frosted card's
+content above the frost, out of the filter's reach, so in Safari such a
+control keeps its own copy. Panes keep their other modes in a content scope,
+since their own content would bend with their lens.
+
+What it costs: Safari and Firefox paint the whole layer in software while a
+filter is on it, so the price grows with the scope and with what is in it. A
+scope around a few controls stays smooth on a phone; one around a stage of
+large gradients does not, whether or not that artwork is moving. Scope the
+control, not the scene around it. Give the scope an opaque background if the
+page behind it should bend too, and keep a control within the bleed of the
+edge, or it is drawn plain past it.
 
 ### Detecting the backdrop
 
@@ -740,9 +796,9 @@ pauses, and a new value lands at once instead of springing.
   backdrop was filtered blacked out the menu's grid cell until something forced
   a full redraw. The lens box has a compositing layer of its own
   (`will-change: transform`), so nothing over it repaints it.
-- An SVG filter on an element in Safari and Firefox takes the backdrop blur
-  away from every glass inside it, which is why the filter never runs on an
-  element that holds other glass.
+- An SVG filter on an element took the backdrop blur away from every glass
+  inside it in earlier Safari and Firefox. Safari 27 keeps it, which is what
+  lets a scope filter its own content with frosted panes inside; see Content.
 - Safari has a ceiling on the source graphic a filter can process, so keep the
   refracted DOM small. The glass container is deliberately only a little larger
   than the control.

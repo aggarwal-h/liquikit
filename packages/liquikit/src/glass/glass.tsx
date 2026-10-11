@@ -66,7 +66,7 @@ function subscribe(value: Animatable, listener: () => void) {
 	return typeof value === "number" ? undefined : value.on("change", listener);
 }
 
-type Mode = "backdrop" | "copy" | "lens" | "none";
+type Mode = "backdrop" | "copy" | "lens" | "inplace" | "none";
 
 type Place = {
 	x: number;
@@ -277,22 +277,29 @@ export function Glass({
 			: root?.closest(".glass-pane")?.parentElement;
 		const nested = Boolean(outside?.closest(".glass-pane"));
 		const scoped = Boolean(scope && root?.closest(".glass-scope"));
+		// Only a pane's rim bends, so its content stays as it is behind its padding.
+		const inPlace = scoped && Boolean(scope?.inPlace);
+		// WebKit paints a frosted card's content above the frost, out of a scope
+		// filter's reach, so glass on glass bends in place only in Chromium and Firefox.
+		const liveNested = chromium || displacementIsSmooth();
 		setMode(
-			nested
-				? scope?.nested
-					? "lens"
-					: targeted
-						? "copy"
-						: "none"
-				: targeted && chromium
-					? "backdrop"
-					: scoped
+			inPlace && (!nested || liveNested)
+				? "inplace"
+				: nested
+					? scope?.nested
 						? "lens"
-						: chromium
-							? "backdrop"
-							: targeted
-								? "copy"
-								: "none",
+						: targeted
+							? "copy"
+							: "none"
+					: targeted && chromium
+						? "backdrop"
+						: scoped
+							? "lens"
+							: chromium
+								? "backdrop"
+								: targeted
+									? "copy"
+									: "none",
 		);
 	}, [scope, targeted]);
 
@@ -384,9 +391,14 @@ export function Glass({
 			bias,
 		);
 
+		// Overlays inside the filtered layer must not be composited: WebKit leaves
+		// them out of a software filter and promotes what overlaps them.
+		const flat = mode === "inplace";
 		const placeOnLens = (element: HTMLDivElement | null) => {
 			if (!element) return;
-			element.style.transform = `translate3d(${left}px, ${top}px, 0)`;
+			element.style.transform = flat
+				? `translate(${left}px, ${top}px)`
+				: `translate3d(${left}px, ${top}px, 0)`;
 			element.style.width = `${innerWidth}px`;
 			element.style.height = `${innerHeight}px`;
 			element.style.borderRadius = `${radius}px`;
@@ -479,6 +491,10 @@ export function Glass({
 				layer.style.backdropFilter = "";
 				lastSignature.current = "";
 			}
+			if (mode === "inplace") {
+				scope?.applyFilter?.(baseId, null);
+				lastSignature.current = "";
+			}
 			release();
 			return;
 		}
@@ -520,6 +536,8 @@ export function Glass({
 		}
 		const pieces = sliced ? result?.slices : undefined;
 		if (sliced && !pieces) result = undefined;
+		// WebKit blanks a layer under a filter whose images have not arrived.
+		if (mode === "inplace" && !result) return;
 
 		const settled = relax
 			? 1 - smoothstep(RELAX_FROM, BODY_OPAQUE, bodyOpacity)
@@ -550,6 +568,13 @@ export function Glass({
 
 		let originX = 0;
 		let originY = 0;
+		if (mode === "inplace") {
+			if (!offset.current) measurePlace();
+			const at = offset.current;
+			if (!at) return;
+			originX = at.x;
+			originY = at.y;
+		}
 		if (mode === "lens") {
 			if (!leased.current) {
 				leased.current = scope?.lease() ?? null;
@@ -692,6 +717,8 @@ export function Glass({
 			leased.current.box.style.filter = `url(#${id})`;
 		} else if (mode === "backdrop" && layer) {
 			layer.style.backdropFilter = `url(#${id})`;
+		} else if (mode === "inplace") {
+			scope?.applyFilter?.(baseId, filter);
 		} else if (layer) {
 			layer.style.filter = `url(#${id})`;
 		}
@@ -837,9 +864,10 @@ export function Glass({
 			cancelAnimationFrame(moved);
 			clearTimeout(settleTimer.current);
 			release();
+			scope?.applyFilter?.(baseId, null);
 			alive.current = false;
 		};
-	}, [measurePlace, release, scope, sync, width]);
+	}, [baseId, measurePlace, release, scope, sync, width]);
 
 	useEffect(() => {
 		const unsubscribes = [
@@ -939,6 +967,7 @@ export function Glass({
 			className={["glass", className].filter(Boolean).join(" ")}
 			style={{ ...style, width, height }}
 			data-glass=""
+			data-flat={mode === "inplace" ? "" : undefined}
 		>
 			<div className="glass__content">{children}</div>
 
@@ -980,6 +1009,8 @@ export function Glass({
 						y="0"
 						width="1"
 						height="1"
+						data-result={mode === "inplace" ? "lensResult" : undefined}
+						data-outline={mode === "inplace" ? "outline" : undefined}
 					>
 						<LensPrimitives
 							dished={dished}
@@ -988,7 +1019,8 @@ export function Glass({
 							lagged={lag !== undefined}
 							split={lens.dispersion > 0}
 							shaded={!light}
-							clear={mode === "copy"}
+							clear={mode === "copy" || mode === "inplace"}
+							hole={mode === "inplace"}
 						/>
 					</filter>
 				</defs>
@@ -1093,6 +1125,7 @@ function LensPrimitives({
 	split,
 	shaded,
 	clear,
+	hole,
 }: {
 	dished: boolean;
 	sliced: boolean;
@@ -1101,16 +1134,20 @@ function LensPrimitives({
 	split: boolean;
 	shaded: boolean;
 	clear: boolean;
+	// Cut out of the source and laid into the hole: laid over a see-through
+	// layer, the lens would double every translucent pixel.
+	hole: boolean;
 }) {
 	const source = lagged ? "lagged" : "SourceGraphic";
 	const rimSource = frosted ? "frosted" : source;
 	const bent = dished ? "bent" : "refracted";
-	// Over a see-through source, a channel that bends past the content would
-	// read as black and fringe the edge, so it falls back to the content below.
+	// Over a see-through source a channel bent past the content reads black,
+	// so it falls back to the content below. Region-limited, or it runs over the whole layer.
 	const filled = (name: string) => (clear ? `${name}Filled` : name);
 	const fill = (name: string) =>
 		clear ? (
 			<feComposite
+				data-rim=""
 				in={name}
 				in2="SourceGraphic"
 				operator="over"
@@ -1146,6 +1183,15 @@ function LensPrimitives({
 				pieces={sliced ? 3 : 1}
 				result="rawRim"
 			/>
+			{hole ? (
+				<feColorMatrix
+					data-lens=""
+					in="rawRim"
+					type="matrix"
+					values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
+					result="outline"
+				/>
+			) : null}
 			{frosted ? (
 				<>
 					<feColorMatrix
@@ -1326,12 +1372,28 @@ function LensPrimitives({
 			<feComposite
 				data-lens=""
 				in={shaded ? "lit" : "refracted"}
-				in2="SourceGraphic"
+				in2={hole ? "outline" : "SourceGraphic"}
 				operator="in"
 				result="lensResult"
 			/>
 
-			<feComposite in="lensResult" in2="SourceGraphic" operator="over" />
+			{hole ? (
+				<>
+					<feComposite
+						data-standalone=""
+						in="SourceGraphic"
+						in2="outline"
+						operator="out"
+						result="rest"
+					/>
+					<feMerge data-standalone="">
+						<feMergeNode in="rest" />
+						<feMergeNode in="lensResult" />
+					</feMerge>
+				</>
+			) : (
+				<feComposite in="lensResult" in2="SourceGraphic" operator="over" />
+			)}
 		</>
 	);
 }

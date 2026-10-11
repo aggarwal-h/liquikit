@@ -66,7 +66,11 @@ export {
 	toggleLens,
 	useLens,
 } from "./presets";
-export { GlassScope, type GlassScopeProps } from "./scope";
+export {
+	GlassScope,
+	type GlassScopeProps,
+	type GlassScopeRefraction,
+} from "./scope";
 export {
 	GlassThemeProvider,
 	type GlassThemeProviderProps,
