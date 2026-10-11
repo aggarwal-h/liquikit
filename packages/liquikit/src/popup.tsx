@@ -625,6 +625,7 @@ export function MorphPane({
 		>
 			<motion.div
 				ref={contentRef}
+				className="glass-ui-popup__content"
 				style={{
 					opacity: contentOpacity,
 					filter: contentFilter,
