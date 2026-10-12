@@ -135,6 +135,13 @@ function whenIdle(task: () => void) {
 
 const IDENTITY_KERNEL = "0 0 0 0 1 0 0 0 0";
 
+// The lens outline is the map's blue channel (coverage) moved to alpha. On a
+// wide-gamut screen Chromium converts the map into the display's colour space
+// first, so blue reads about 0.15 outside the lens and 0.96 inside it, and the
+// unbent page leaks through a faint box around the lens. Coverage 0.25 → 0 and
+// 0.9 → 1, clamped, gives back a clean 0 and 1 in any colour space.
+const OUTLINE_MATRIX = "0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1.5385 0 -0.3846";
+
 function smoothingKernel(amount: number) {
 	const s = clamp01(amount);
 	if (s === 0) return IDENTITY_KERNEL;
@@ -1188,7 +1195,7 @@ function LensPrimitives({
 					data-lens=""
 					in="rawRim"
 					type="matrix"
-					values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
+					values={OUTLINE_MATRIX}
 					result="outline"
 				/>
 			) : null}
@@ -1198,7 +1205,7 @@ function LensPrimitives({
 						data-lens=""
 						in="rawRim"
 						type="matrix"
-						values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 1 0 0"
+						values={OUTLINE_MATRIX}
 						result="outline"
 					/>
 					<feGaussianBlur
