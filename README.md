@@ -2,6 +2,11 @@
 
 Liquid glass components for React, with physically based refraction. Built on [Base UI](https://base-ui.com) and distributed as a [shadcn](https://ui.shadcn.com) registry: the CLI copies the source into your project.
 
+<p align="center">
+  <a href="https://liquikit.dev"><img src="https://github.com/user-attachments/assets/a10d54bf-04ac-4a0f-9a9f-7a30428c356b" width="600" alt="A LiquiKit switch recorded in Chrome 154, Safari 27 and Firefox 157, shown as three slices of the same frame"></a>
+</p>
+
+
 ## Using it
 
 Add the registry to `components.json`:
