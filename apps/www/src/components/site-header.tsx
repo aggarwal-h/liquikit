@@ -20,15 +20,13 @@ export function SiteHeader({
 			}
 		>
 			<div className="mx-auto flex h-14 max-w-[1440px] items-center gap-6 px-4 sm:px-6">
-				{docs ? (
-					<Link
-						to="/"
-						className="shrink-0 text-[15px] whitespace-nowrap text-white"
-						aria-label={`${site.name} home`}
-					>
-						<Logo mono />
-					</Link>
-				) : null}
+				<Link
+					to="/"
+					className={`shrink-0 items-center text-[15px] whitespace-nowrap text-white ${docs ? "flex" : "hidden sm:flex"}`}
+					aria-label={`${site.name} home`}
+				>
+					<Logo mono />
+				</Link>
 				<nav
 					className={`items-center gap-5 text-[14px] text-white/60 ${docs ? "hidden sm:flex" : "flex"}`}
 				>
